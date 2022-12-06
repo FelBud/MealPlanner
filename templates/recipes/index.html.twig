@@ -23,7 +23,7 @@
             <tr>
                 <td>{{ recipe.id }}</td>
                 <td>{{ recipe.Name }}</td>
-                <td>{{ recipe.Picture }}</td>
+                <td><img src="{{ asset("pictures/"~recipe.Picture) }}" alt=""></td>
                 <td>{{ recipe.Category }}</td>
                 <td>{{ recipe.Servings }}</td>
                 <td>{{ recipe.Price }}</td>
