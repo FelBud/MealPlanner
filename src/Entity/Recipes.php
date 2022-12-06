@@ -34,7 +34,7 @@ class Recipes
 
     #[ORM\ManyToOne(inversedBy: 'fkRecipes')]
     private ?Weekplanner $weekplanner = null;
-
+    
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Procedure $fkProcedure = null;
@@ -61,7 +61,7 @@ class Recipes
         return $this->Picture;
     }
 
-    public function setPicture(string $Picture): self
+    public function setPicture(string $Picture = null): self
     {
         $this->Picture = $Picture;
 
