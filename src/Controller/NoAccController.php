@@ -15,11 +15,16 @@ class NoAccController extends AbstractController
 
 
     #[Route('/no/acc', name: 'app_no_acc')]
-    public function index(RecipesRepository $recipesRepository): Response
+    public function index(): Response
     {
 
-        return $this->render('no_acc/index.html.twig', [
-            'recipes' => $recipesRepository->findAll(),
-        ]);
+        return $this->render('no_acc/index.html.twig', []);
+    }
+
+    #[Route('/about', name: 'about')]
+    public function about(): Response
+    {
+
+        return $this->render('components/about.html.twig', []);
     }
 }
