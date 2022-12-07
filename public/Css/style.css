@@ -148,3 +148,7 @@ a.dropdown-item:hover {
 #recipe-box {
     /* margin-top: 10%; */
 }
+
+.headings {
+    font-family: 'system-ui';
+}
