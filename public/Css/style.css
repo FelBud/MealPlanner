@@ -165,10 +165,13 @@ a.dropdown-item:hover {
 
 /* Recipe Index */
 
-#recipe-box {
-    /* margin-top: 10%; */
-}
-
 .headings {
     font-family: 'system-ui';
+}
+
+
+/* about */
+
+.testimonials-box {
+    margin-top: 10%;
 }
