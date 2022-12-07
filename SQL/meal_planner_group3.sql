@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 07. Dez 2022 um 10:57
+-- Erstellungszeit: 07. Dez 2022 um 15:27
 -- Server-Version: 10.4.21-MariaDB
 -- PHP-Version: 8.1.6
 
@@ -138,15 +138,16 @@ CREATE TABLE `recipes` (
   `category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `servings` int(11) NOT NULL,
   `price` decimal(5,2) NOT NULL,
-  `time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'in progress'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Daten für Tabelle `recipes`
 --
 
-INSERT INTO `recipes` (`id`, `fk_procedure_id`, `name`, `picture`, `category`, `servings`, `price`, `time`) VALUES
-(1, 1, 'Test', 'index-638f409846cec.jpg', 'test', 2, '1.20', '1 sec');
+INSERT INTO `recipes` (`id`, `fk_procedure_id`, `name`, `picture`, `category`, `servings`, `price`, `time`, `status`) VALUES
+(1, 1, 'Test', 'index-638f409846cec.jpg', 'test', 2, '1.20', '1 sec', 'in progress');
 
 -- --------------------------------------------------------
 
