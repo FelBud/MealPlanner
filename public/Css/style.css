@@ -13,6 +13,9 @@
     /* background-color: aquamarine !important; */
 }
 
+
+/* navbar */
+
 #mainNavigation a {
     font-family: 'Cabin', sans-serif;
     font-size: 14px;
@@ -78,11 +81,7 @@ a.dropdown-item:hover {
 }
 
 
-/* login */
-
-.login-form {
-    margin-top: 20%;
-}
+/* login/register */
 
 .form_class {
     margin: 0 auto;
@@ -140,8 +139,4 @@ a.dropdown-item:hover {
     margin-top: 10px;
     box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
     cursor: pointer;
-}
-
-.register-form {
-    margin-top: 30%;
 }

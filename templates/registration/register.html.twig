@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %} {% block title %}Register{% endblock %} {% block body %}
-<div class="register-form">
+<div class="form_class" id="login_form">
     <h1>Register</h1>
+    <div class="form_div">
+        {{ form_start(registrationForm) }} {{ form_row(registrationForm.email) }} {{ form_row(registrationForm.name) }} {{ form_row(registrationForm.gender) }} {{ form_row(registrationForm.picture) }} {{ form_row(registrationForm.plainPassword, { label: 'Password'
+        }) }} {{ form_row(registrationForm.agreeTerms) }}
+    </div>
+    <button type="submit" class="btn btn-lg btn-primary mt-3 text-center">Register</button>
 
-    {{ form_start(registrationForm) }} {{ form_row(registrationForm.email) }} {{ form_row(registrationForm.name) }} {{ form_row(registrationForm.gender) }} {{ form_row(registrationForm.picture) }} {{ form_row(registrationForm.plainPassword, { label: 'Password'
-    }) }} {{ form_row(registrationForm.agreeTerms) }}
-
-    <button type="submit" class="btn">Register</button> {{ form_end(registrationForm) }}
+    <div class="info_div">
+        <p>Already registered? <a href="register/reg-form.php">Login here!</a></p>
+    </div>
+    {{ form_end(registrationForm) }}
 </div>
 {% endblock %}
