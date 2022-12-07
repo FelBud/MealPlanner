@@ -57,7 +57,7 @@ a.dropdown-item:hover {
 }
 
 #mainNavigation {
-    position: absolute;
+    /* position: absolute; */
     top: 0;
     left: 0;
     width: 100%;
@@ -140,4 +140,11 @@ a.dropdown-item:hover {
     margin-top: 10px;
     box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
     cursor: pointer;
+}
+
+
+/* Recipe Index */
+
+#recipe-box {
+    /* margin-top: 10%; */
 }
