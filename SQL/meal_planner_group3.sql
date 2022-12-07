@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 07. Dez 2022 um 15:27
+-- Erstellungszeit: 07. Dez 2022 um 16:01
 -- Server-Version: 10.4.21-MariaDB
 -- PHP-Version: 8.1.6
 
@@ -139,7 +139,7 @@ CREATE TABLE `recipes` (
   `servings` int(11) NOT NULL,
   `price` decimal(5,2) NOT NULL,
   `time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'in progress'
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -162,7 +162,8 @@ CREATE TABLE `user` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
