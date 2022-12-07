@@ -21,7 +21,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', TextType::class, ["attr" => ["class" => "form-control mb-2", "placeholder" => "Email"]])
-            ->add('name', TextType::class, ["attr" => ["class" => "form-control mb-2", "placeholder" => "Name22"]])
+            ->add('name', TextType::class, ["attr" => ["class" => "form-control mb-2", "placeholder" => "Name"]])
             ->add(
                 'gender',
                 ChoiceType::class,
