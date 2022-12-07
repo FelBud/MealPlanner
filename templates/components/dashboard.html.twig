@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %} {% block body %} {% if condition %}{% endif %}
+
+<h1>Users</h1>
+<hr> {% if is_granted("ROLE_Admin") %}
+<!--For Loop users-->
+{% else %}
+<!--Only User information-->
+
+<h1>Recipes in Progress:</h1>
+
+<!--Loop of Recipes in Progress-->
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for recipe in recipes %}
+    <div class="col">
+        <div class="card">
+            <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.Name }}</h5>
+                <p class="card-text"><i class="fa-regular fa-user me-2"></i>{{ recipe.Servings }} Servings </p>
+                <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }}</p>
+                <a href=""><button class="btn btn-outline-dark">Details</button></a>
+                <a href=""><button class="btn btn-outline-dark">Approve</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
