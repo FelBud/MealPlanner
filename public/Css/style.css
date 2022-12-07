@@ -152,6 +152,17 @@ a.dropdown-item:hover {
     background-size: cover;
 }
 
+.home_text {
+    width: 100%;
+    position: absolute;
+    top: 80%;
+    font-size: 300%;
+}
+
+.button {
+    width: 10%;
+}
+
 
 /* Recipe Index */
 

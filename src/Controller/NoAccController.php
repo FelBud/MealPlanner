@@ -12,23 +12,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NoAccController extends AbstractController
 {
-    
-    
+
+
     #[Route('/no/acc', name: 'app_no_acc')]
     public function index(RecipesRepository $recipesRepository): Response
     {
-        
-        return $this->render('recipes/index.html.twig', [
-            'recipes' => $recipesRepository->findAll(),  
+
+        return $this->render('no_acc/index.html.twig', [
+            'recipes' => $recipesRepository->findAll(),
         ]);
     }
-
-    #[Route('/about', name: 'aboutpage')]
-    public function about(): Response
-    {
-        return $this->render('no_acc/about.html.twig', [
-            'controller_name' => 'NoAccController',
-        ]);
-    }
-
 }
