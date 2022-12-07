@@ -32,9 +32,7 @@ class Recipes
     #[ORM\Column(length: 255)]
     private ?string $Time = null;
 
-    #[ORM\ManyToOne(inversedBy: 'fkRecipes')]
-    private ?Weekplanner $weekplanner = null;
-    
+
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Procedure $fkProcedure = null;
@@ -116,17 +114,7 @@ class Recipes
         return $this;
     }
 
-    public function getWeekplanner(): ?Weekplanner
-    {
-        return $this->weekplanner;
-    }
 
-    public function setWeekplanner(?Weekplanner $weekplanner): self
-    {
-        $this->weekplanner = $weekplanner;
-
-        return $this;
-    }
 
     public function getFkProcedure(): ?Procedure
     {

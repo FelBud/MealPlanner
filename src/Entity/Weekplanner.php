@@ -19,16 +19,14 @@ class Weekplanner
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\OneToMany(mappedBy: 'weekplanner', targetEntity: Recipes::class)]
-    private Collection $fkRecipes;
-
     #[ORM\Column(length: 255)]
     private ?string $mealTime = null;
 
-    public function __construct()
-    {
-        $this->fkRecipes = new ArrayCollection();
-    }
+    #[ORM\ManyToOne]
+    private ?User $fkUser = null;
+
+    #[ORM\ManyToOne]
+    private ?Recipes $fkRecipes = null;
 
     public function getId(): ?int
     {
@@ -47,35 +45,7 @@ class Weekplanner
         return $this;
     }
 
-    /**
-     * @return Collection<int, Recipes>
-     */
-    public function getFkRecipes(): Collection
-    {
-        return $this->fkRecipes;
-    }
 
-    public function addFkRecipe(Recipes $fkRecipe): self
-    {
-        if (!$this->fkRecipes->contains($fkRecipe)) {
-            $this->fkRecipes->add($fkRecipe);
-            $fkRecipe->setWeekplanner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFkRecipe(Recipes $fkRecipe): self
-    {
-        if ($this->fkRecipes->removeElement($fkRecipe)) {
-            // set the owning side to null (unless already changed)
-            if ($fkRecipe->getWeekplanner() === $this) {
-                $fkRecipe->setWeekplanner(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getMealTime(): ?string
     {
@@ -85,6 +55,30 @@ class Weekplanner
     public function setMealTime(string $mealTime): self
     {
         $this->mealTime = $mealTime;
+
+        return $this;
+    }
+
+    public function getFkUser(): ?User
+    {
+        return $this->fkUser;
+    }
+
+    public function setFkUser(?User $fkUser): self
+    {
+        $this->fkUser = $fkUser;
+
+        return $this;
+    }
+
+    public function getFkRecipes(): ?Recipes
+    {
+        return $this->fkRecipes;
+    }
+
+    public function setFkRecipes(?Recipes $fkRecipes): self
+    {
+        $this->fkRecipes = $fkRecipes;
 
         return $this;
     }
