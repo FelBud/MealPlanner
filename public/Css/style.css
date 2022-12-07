@@ -1,0 +1,14 @@
+/* about */
+
+.testimonial {
+    width: 200px;
+}
+
+
+/* weekplanner */
+
+.day {
+    width: 20%;
+    vertical-align: middle;
+    /* background-color: aquamarine !important; */
+}
