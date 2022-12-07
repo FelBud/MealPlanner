@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Recipes;
 use App\Form\RecipesType;
 use App\Repository\RecipesRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FileUploadError;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,5 +93,13 @@ class RecipesController extends AbstractController
         }
 
         return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/dashboard', name: 'app_static', methods: ['GET'])]
+    public function dashboard(UserRepository $usersRepository): Response
+    {
+        return $this->render('components/dashboard.html.twig', [
+            'users' => $usersRepository->findAll(),
+        ]);
     }
 }
