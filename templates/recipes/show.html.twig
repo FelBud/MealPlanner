@@ -1,40 +1,42 @@
-{% extends 'base.html.twig' %} {% block title %}Recipes{% endblock %} {% block body %}
-<h1>Recipes</h1>
+{% extends 'base.html.twig' %} {% block title %}{{recipe.name}}{% endblock %} {% block body %}
+<div class="container">
+    <div class="">
+        <img src="" alt="">
+        <h1 class="text-center">{{recipe.name}}</h1>
+        <div class="d-flex justify-content-around">
+            <p><i class="fa-regular fa-user me-2"></i>{{recipe.Servings}} Servings</p>
+            <p><i class="fa-regular fa-clock me-2"></i>{{recipe.time}} </p>
+            {% if recipe.category == "vegetarian" %}
+            <p><i class="fa-solid fa-leaf me-2"></i>{{recipe.category}}</p>
+            {% elseif recipe.category == "vegan" %}
+            <p><i class="fa-solid fa-seedling me-2"></i>{{recipe.category}}</p>
+            {% else %}
+            <p><i class="fa-solid fa-infinity me-2"></i>{{recipe.category}}</p>
+            {% endif %}
+            <p><i class="fa-solid fa-coins me-2"></i>{{recipe.price}} €</p>
+        </div>
+    </div>
 
-<table class="table">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            {#
-            <td>{{recipe.id}}</td> #}
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ recipe.name }}</td>
-        </tr>
-        <tr>
-            <th>Picture</th>
-            <td>{{ recipe.Picture }}</td>
-        </tr>
-        <tr>
-            <th>Category</th>
-            <td>{{ recipe.Category }}</td>
-        </tr>
-        <tr>
-            <th>Servings</th>
-            <td>{{ recipe.Servings }}</td>
-        </tr>
-        <tr>
-            <th>Price</th>
-            <td>{{ recipe.Price }}</td>
-        </tr>
-        <tr>
-            <th>Time</th>
-            <td>{{ recipe.Time }}</td>
-        </tr>
-    </tbody>
-</table>
+    <div class="border rounded row row-cols-1 row-cols-md-2">
+        <!--Ingredients-->
+        <div>
+            <h3>Ingredients</h3>
+            <hr>
+            <!--List for Ingredients-->
+            <ul>
 
+            </ul>
+
+        </div>
+        <!--Method-->
+        <div>
+            <h3>Method</h3>
+            <hr>
+            <!--List for Method-->
+        </div>
+
+    </div>
+</div>
 {% if is_granted("ROLE_USER") %}
 <a href="{{ path('app_static') }}">back to list</a> {% endif %} {% if is_granted("ROLE_ADMIN") %}
 <a href="{{ path('app_recipes_index') }}">back to list</a>

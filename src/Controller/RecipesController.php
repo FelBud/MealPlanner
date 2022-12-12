@@ -63,7 +63,6 @@ class RecipesController extends AbstractController
     public function show($id, RecipesRepository $recipesRepository): Response
     {
         $recipes = $recipesRepository->find($id);
-        dd($recipes);
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipes,
         ]);
