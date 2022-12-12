@@ -59,10 +59,11 @@ class RecipesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_recipes_show', methods: ['GET'])]
-    public function show(Recipes $recipe, $id, ManagerRegistry $doctrine): Response
+    #[Route('/{id}/show', name: 'app_recipes_show', methods: ['GET'])]
+    public function show($id, RecipesRepository $recipesRepository): Response
     {
-        $recipes = $doctrine->getRepository(Recipes::class)->find($id);
+        $recipes = $recipesRepository->find($id);
+        dd($recipes);
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipes,
         ]);
