@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 07. Dez 2022 um 16:01
+-- Erstellungszeit: 12. Dez 2022 um 12:31
 -- Server-Version: 10.4.21-MariaDB
 -- PHP-Version: 8.1.6
 
@@ -139,15 +139,16 @@ CREATE TABLE `recipes` (
   `servings` int(11) NOT NULL,
   `price` decimal(5,2) NOT NULL,
   `time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fk_user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Daten für Tabelle `recipes`
 --
 
-INSERT INTO `recipes` (`id`, `fk_procedure_id`, `name`, `picture`, `category`, `servings`, `price`, `time`, `status`) VALUES
-(1, 1, 'Test', 'index-638f409846cec.jpg', 'test', 2, '1.20', '1 sec', 'in progress');
+INSERT INTO `recipes` (`id`, `fk_procedure_id`, `name`, `picture`, `category`, `servings`, `price`, `time`, `status`, `fk_user_id`) VALUES
+(1, 1, 'Test', 'index-638f409846cec.jpg', 'test', 2, '1.20', '1 sec', 'in progress', NULL);
 
 -- --------------------------------------------------------
 
@@ -165,6 +166,14 @@ CREATE TABLE `user` (
   `picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Daten für Tabelle `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `roles`, `password`, `name`, `gender`, `picture`, `status`) VALUES
+(1, 'silia@mail.com', '[\"ROLE_ADMIN\"]', '$2y$13$RaCyhmIuAo8ashzVNsWCl.EsPyRycmWIlsTeCtUGSJj5ERcsYlq/i', 'cronauer', 'female', 'www', NULL),
+(2, 'silia.maria@web.de', '[]', '$2y$13$SQ1XlEXcEx7L2LJbsRBr2Os9foAfEgy4oEuYosJ6gWkZo90Z5T0hm', 'silia', 'female', 'www', NULL);
 
 -- --------------------------------------------------------
 
@@ -233,7 +242,8 @@ ALTER TABLE `procedure`
 --
 ALTER TABLE `recipes`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UNIQ_A369E2B537F9BECB` (`fk_procedure_id`);
+  ADD UNIQUE KEY `UNIQ_A369E2B537F9BECB` (`fk_procedure_id`),
+  ADD KEY `IDX_A369E2B55741EEB9` (`fk_user_id`);
 
 --
 -- Indizes für die Tabelle `user`
@@ -288,7 +298,7 @@ ALTER TABLE `recipes`
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `weekplanner`
@@ -311,7 +321,8 @@ ALTER TABLE `join_recipe`
 -- Constraints der Tabelle `recipes`
 --
 ALTER TABLE `recipes`
-  ADD CONSTRAINT `FK_A369E2B537F9BECB` FOREIGN KEY (`fk_procedure_id`) REFERENCES `procedure` (`id`);
+  ADD CONSTRAINT `FK_A369E2B537F9BECB` FOREIGN KEY (`fk_procedure_id`) REFERENCES `procedure` (`id`),
+  ADD CONSTRAINT `FK_A369E2B55741EEB9` FOREIGN KEY (`fk_user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints der Tabelle `weekplanner`
