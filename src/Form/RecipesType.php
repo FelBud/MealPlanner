@@ -22,14 +22,17 @@ class RecipesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('name', TextType::class, ["attr"=>["placeholder"=>"please type the recipe name", "class"=>"form-control mb-2"]])
+        ->add('name', TextType::class, ["attr"=>["placeholder"=>"please type the recipe name", "class"=>"form-control mb-2", "style" => "width: 700px"]])
             ->add('Category', TextType::class, ["attr"=>["placeholder"=>"Vegan, Vegetarian, Universal, etc...", "class"=>"form-control mb-2"]])
             ->add('Servings', NumberType::class, ["attr"=>["placeholder"=>"for how many people", "class"=>"form-control mb-2"]])
             ->add('Price',  NumberType::class, ["attr"=>["placeholder"=>"The max price of the ingrediants", "class"=>"form-control mb-2"]])
             ->add('Time' , TextType::class, ["attr"=>["placeholder"=>"preparation time", "class"=>"form-control mb-2"]])
+            ->add('procedure', TextareaType::class,["mapped"=>false,"attr"=>["placeholder"=>"preparation", "class"=>"form-control mb-2"]])
             
                 ->add('picture', FileType::class, [
                     'label' => 'Picture',
+
+                  
     
                     'mapped' => false,
     
@@ -50,7 +53,9 @@ class RecipesType extends AbstractType
                     ],
                 ])
                 ->add('procedure', TextareaType::class,["mapped"=>false,"attr"=>["placeholder"=>"preparation", "class"=>"form-control mb-2"]])
-                ->add('Create', SubmitType::class, ["attr"=>[ "class"=>"btn btn-primary"]])
+                ->add('Create', SubmitType::class, ["attr"=>[ "class"=>"btn btn-outline-dark btnsize"]])
+
+                
         ;
     }
 

@@ -1,13 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Edit Recipes{% endblock %} {% block body %}
 
-{% block title %}Edit Recipes{% endblock %}
+<h1 class="headings text-center">Edit Recipes</h1>
 
-{% block body %}
-    <h1>Edit Recipes</h1>
 
-    {{ include('recipes/_form.html.twig', {'button_label': 'Update'}) }}
+{{ include('recipes/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_recipes_index') }}">back to list</a>
-
-    {{ include('recipes/_delete_form.html.twig') }}
-{% endblock %}
+<div class="text-center"><a href="{{ path('app_recipes_index') }}" class="btn btn-outline-dark btnsize">Back</a></div> {{ include('recipes/_delete_form.html.twig') }} {% endblock %}
