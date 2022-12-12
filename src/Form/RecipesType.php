@@ -33,7 +33,7 @@ class RecipesType extends AbstractType
                 
                 "attr"=>["class"=>"form-control mb-2"]])
             ->add('Servings', NumberType::class, ["attr"=>["placeholder"=>"for how many people", "class"=>"form-control mb-2"]])
-            ->add('Price',  NumberType::class, ["attr"=>["placeholder"=>"The max price of the ingrediants", "class"=>"form-control mb-2"]])
+            ->add('Price',  NumberType::class, ["attr"=>["placeholder"=>"The approximately price of the ingredients", "class"=>"form-control mb-2"]])
             ->add('Time' , TextType::class, ["attr"=>["placeholder"=>"preparation time", "class"=>"form-control mb-2"]])
             ->add('procedure', TextareaType::class,["mapped"=>false,"attr"=>["placeholder"=>"preparation", "class"=>"form-control mb-2"]])
             
