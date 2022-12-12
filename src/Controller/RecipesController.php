@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Procedure;
 use App\Entity\Recipes;
 use App\Form\RecipesType;
+use App\Repository\ProcedureRepository;
 use App\Repository\RecipesRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,13 +27,18 @@ class RecipesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_recipes_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
+    public function new(Request $request, ProcedureRepository $procedureRepository, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
         $recipe = new Recipes();
+        $procedure = new Procedure();
         $form = $this->createForm(RecipesType::class, $recipe);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $inputProcudure = $form->get('procedure')->getData();
+            $procedure->setInstructions($inputProcudure);
+            $recipe->setFkProcedure($procedure);
+
             $pictureFile = $form->get('picture')->getData();
             if ($pictureFile) {
                 $pictureFileName = $fileUploader->upload($pictureFile);
@@ -40,6 +47,7 @@ class RecipesController extends AbstractController
                 $recipe->setPicture("default.png");
             }
             $recipesRepository->save($recipe, true);
+            $procedureRepository->save($procedure, true);
 
             return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
         }
