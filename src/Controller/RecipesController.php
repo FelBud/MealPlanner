@@ -109,8 +109,17 @@ class RecipesController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard', methods: ['GET'])]
     public function dashboard(UserRepository $usersRepository, RecipesRepository $recipesRepository): Response
     {
+        $array = [];
+        $user = $usersRepository->findAll();
+        foreach ($user as $key => $value) {
+            if($value->getRoles()[0] != "ROLE_ADMIN") {
+                array_push($array, $value);
+            }
+           
+        }
+        
         return $this->render('components/dashboard.html.twig', [
-            'users' => $usersRepository->findAll(),
+            'users' => $array,
             'recipes' => $recipesRepository->findAll(),
         ]);
     }
