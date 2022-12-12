@@ -10,6 +10,8 @@ use App\Entity\Ingredients;
 use App\Form\RecipesType;
 use App\Form\IngredientsType;
 use App\Repository\ProcedureRepository;
+use App\Repository\IngredientsRepository;
+use App\Repository\JoinRecipeRepository;
 use App\Repository\RecipesRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -87,22 +89,38 @@ class RecipesController extends AbstractController
     }
 
     #[Route('/{id}/show', name: 'app_recipes_show', methods: ['GET'])]
-    public function show($id, RecipesRepository $recipesRepository): Response
+    public function show($id, RecipesRepository $recipesRepository, JoinRecipeRepository $JoinRecipeRepository): Response
     {
         $recipes = $recipesRepository->find($id);
+        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes"=> $id));
+        
 
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipes,
+            'joinRecipe' => $joinRecipe,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_recipes_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
+    public function edit($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
+        $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes"=>$id));
+        $string = "";
+
+        foreach($ings as $ing){
+            $string .= $ing->getFkIngredients()->getName() . ", ";
+        }
+        
         $form = $this->createForm(RecipesType::class, $recipe);
+        $editIng = new Ingredients();
+        $editIng->setName($string);
+        $form2 = $this->createForm(IngredientsType::class, $editIng);
+
         $form->handleRequest($request);
+        $form2->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em = $doctrine->getManager();
             $pictureFile = $form->get('picture')->getData();
             if ($pictureFile) {
                 unlink("pictures/" . $recipe->getPicture());
@@ -110,6 +128,27 @@ class RecipesController extends AbstractController
                 $recipe->setPicture($pictureFileName);
             } else {
                 $recipe->setPicture("default.png");
+            }
+
+            $stringToArray = explode(", ", $string);
+            foreach ($ings as $value) {
+                $em->remove($value);
+                $em->flush();
+
+            }
+            $ingredients = $form2->get("name")->getData();
+            $ingredients = explode(", ", $ingredients );
+            
+            foreach($ingredients as $ingredient){
+                $ing = new Ingredients();
+                $joinRec = new JoinRecipe();
+                $ing->setName($ingredient);
+                $em->persist($ing);
+                $em->flush();
+                $joinRec->setFkRecipes($recipe);
+                $joinRec->setFkIngredients($ing);
+                $em->persist($joinRec);
+                $em->flush();
             }
             $recipesRepository->save($recipe, true);
 
@@ -120,6 +159,7 @@ class RecipesController extends AbstractController
         return $this->renderForm('recipes/edit.html.twig', [
             'recipe' => $recipe,
             'form' => $form,
+            "form2"=> $form2->createView()
         ]);
     }
 

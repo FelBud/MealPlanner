@@ -24,6 +24,10 @@
             <hr>
             <!--List for Ingredients-->
             <ul>
+                {% for ing in joinRecipe %}
+                <li>{{ing.fkIngredients.name}}</li>
+
+                {% endfor %}
 
             </ul>
 
@@ -33,6 +37,7 @@
             <h3>Method</h3>
             <hr>
             <!--List for Method-->
+            <p>{{recipe.fkProcedure.instructions}}</p>
         </div>
 
     </div>
