@@ -75,4 +75,14 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/block/{id}', name: 'app_user_block', methods: ['POST'])]
+    public function block(Request $request, User $user, UserRepository $userRepository): Response
+    {
+        if ($this->isCsrfTokenValid('update'.$user->getId(), $request->request->get('_token'))) {
+            $userRepository->update($user, true);
+        }
+
+        return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
+    }
 }
