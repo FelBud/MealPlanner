@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/recipes')]
 class RecipesController extends AbstractController
@@ -59,10 +60,11 @@ class RecipesController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_recipes_show', methods: ['GET'])]
-    public function show(Recipes $recipe): Response
+    public function show(Recipes $recipe, $id, ManagerRegistry $doctrine): Response
     {
+        $recipes = $doctrine->getRepository(Recipes::class)->find($id);
         return $this->render('recipes/show.html.twig', [
-            'recipe' => $recipe,
+            'recipe' => $recipes,
         ]);
     }
 
