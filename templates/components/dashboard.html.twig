@@ -2,6 +2,7 @@
 
 <h1>Users</h1>
 <hr> {% if is_granted("ROLE_ADMIN") %}
+
 <table class="table">
     <thead>
         <tr>
@@ -25,6 +26,7 @@
 
     <tbody>
         <!--Loop for all users-->
+
         {% for user in users %}
         <tr>
             <td>{{ user.name }}</td>
@@ -39,7 +41,6 @@
         {% endfor %}
     </tbody>
 </table>
-
 {% else %}
 <!--Only User{id} information-->
 <table class="table">
