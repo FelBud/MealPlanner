@@ -109,9 +109,13 @@ class RecipesController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard', methods: ['GET'])]
     public function dashboard(UserRepository $usersRepository, RecipesRepository $recipesRepository): Response
     {
+
         return $this->render('components/dashboard.html.twig', [
             'users' => $usersRepository->findAll(),
             'recipes' => $recipesRepository->findAll(),
+
+
+
         ]);
     }
 }
