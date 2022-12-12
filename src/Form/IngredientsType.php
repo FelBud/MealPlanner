@@ -20,7 +20,7 @@ class IngredientsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('name', TextType::class, ["attr"=>["placeholder"=>"please enter the ingredients", "class"=>"form-control mb-2", "style" => "width: 700px"]]);
+        ->add('name', TextType::class, ["attr"=>["placeholder"=>"please enter the ingredients seperated by comma", "class"=>"form-control mb-2", "style" => "width: 700px"]]);
     }
     public function configureOptions(OptionsResolver $resolver): void
     {
