@@ -31,12 +31,12 @@ class RecipesController extends AbstractController
         $form = $this->createForm(RecipesType::class, $recipe);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $pictureFile = $form->get('picture')->getData();
             if ($pictureFile) {
                 $pictureFileName = $fileUploader->upload($pictureFile);
                 $recipe->setPicture($pictureFileName);
-            }else {
+            } else {
                 $recipe->setPicture("default.png");
             }
             $recipesRepository->save($recipe, true);
@@ -64,13 +64,13 @@ class RecipesController extends AbstractController
         $form = $this->createForm(RecipesType::class, $recipe);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $pictureFile = $form->get('picture')->getData();
             if ($pictureFile) {
-                unlink("pictures/".$recipe->getPicture());
+                unlink("pictures/" . $recipe->getPicture());
                 $pictureFileName = $fileUploader->upload($pictureFile);
                 $recipe->setPicture($pictureFileName);
-            }else {
+            } else {
                 $recipe->setPicture("default.png");
             }
             $recipesRepository->save($recipe, true);
@@ -88,13 +88,13 @@ class RecipesController extends AbstractController
     #[Route('/{id}', name: 'app_recipes_delete', methods: ['POST'])]
     public function delete(Request $request, Recipes $recipe, RecipesRepository $recipesRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$recipe->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $recipe->getId(), $request->request->get('_token'))) {
             $recipesRepository->remove($recipe, true);
         }
 
         return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+
     #[Route('/dashboard', name: 'app_dashboard', methods: ['GET'])]
     public function dashboard(UserRepository $usersRepository, RecipesRepository $recipesRepository): Response
     {
