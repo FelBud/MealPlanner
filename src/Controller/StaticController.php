@@ -51,9 +51,16 @@ class StaticController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_static_show', methods: ['GET'])]
-    public function show(Recipes $recipe): Response
+    #[Route('/{id}/show', name: 'app_static_show', methods: ['GET'])]
+    public function show($id, Recipes $recipe): Response
     {
+        // SELECT * 
+        // FROM join_recipe
+        // WHERE fk_recipes_id = $id
+
+        // SELECT *
+        // FROM ingredients
+        // WHERE id = join_recipe.id
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipe,
         ]);

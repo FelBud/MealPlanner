@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Weekplanner{% endblock %}
+
+{% block body %}
+    <h1>Edit Weekplanner</h1>
+
+    {{ include('weekplanner/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_weekplanner_index') }}">back to list</a>
+
+    {{ include('weekplanner/_delete_form.html.twig') }}
+{% endblock %}

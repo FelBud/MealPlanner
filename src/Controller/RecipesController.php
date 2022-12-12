@@ -115,9 +115,9 @@ class RecipesController extends AbstractController
             if($value->getRoles()[0] != "ROLE_ADMIN") {
                 array_push($array, $value);
             }
-           
+
         }
-        
+
         return $this->render('components/dashboard.html.twig', [
             'users' => $array,
             'recipes' => $recipesRepository->findAll(),

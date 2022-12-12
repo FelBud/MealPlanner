@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Weekplanner{% endblock %}
+
+{% block body %}
+    <h1>Weekplanner</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ weekplanner.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>MealTime</th>
+                <td>{{ weekplanner.mealTime }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_weekplanner_index') }}">back to list</a>
+
+    <a href="{{ path('app_weekplanner_edit', {'id': weekplanner.id}) }}">edit</a>
+
+    {{ include('weekplanner/_delete_form.html.twig') }}
+{% endblock %}

@@ -21,7 +21,7 @@
                         <a href="{{ path('app_static_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark">Details</button></a> {% if is_granted("ROLE_ADMIN") %}
                         <a href="{{ path('app_recipes_edit', {'id': recipe.id}) }}">edit</a>
                         <a href="{{ path('app_recipes_delete', {'id': recipe.id}) }}">delete</a> {% else %}
-                        <a href="{{ path('app_static_add', {'id': recipe.id}) }}"><button class="btn btn-outline-dark">Add to Planner</button></a> {% endif %} {# {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('app_weekplanner_new', {'id': recipe.id}) }}"><button class="btn btn-outline-dark">Add to Planner</button></a> {% endif %} {# {% if is_granted("ROLE_ADMIN") %}
                         <a href="{{ path('app_recipes_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark">Details</button></a> {% endif %} #}
 
                     </div>

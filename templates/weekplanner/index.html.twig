@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Weekplanner index{% endblock %}
+
+{% block body %}
+    <h1>Weekplanner index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>day</th>
+                <th>MealTime</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for weekplanner in weekplanners %}
+            <tr>
+                <td>{{ weekplanner.fkRecipes.name }}</td>
+                {# <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td>
+                <td>{{ weekplanner.mealTime }}</td> #}
+                <td>
+                    <select>
+                    <option>Mon.</option>
+                    <option>Tue.</option>
+                    <option>Wed.</option>
+                    <option>Thu.</option>
+                    <option>Fri.</option>
+                    <option>Sat.</option>
+                    <option>Sun.</option>
+                     </select>
+                </td>
+                <td>
+                    <select>
+                    <option>Breakfast</option>
+                    <option>Lunch</option>
+                    <option>Dinner</option>
+                     </select>
+                </td>
+                <td>
+                    {# <a href="{{ path('app_static_show', {'id': weekplanner.fkRecipes.id}) }}">show</a> #}
+                    <a href="/recipes/{{weekplanner.fkRecipes.id }}/show">show</a>
+                    <a href="/weekplanner/{{weekplanner.id}}/delete">delete</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# <a href="{{ path('app_weekplanner_new') }}">Create new</a> #}
+{% endblock %}
