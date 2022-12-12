@@ -4,7 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Procedure;
 use App\Entity\Recipes;
+use App\Entity\JoinRecipe;
+
+use App\Entity\Ingredients;
 use App\Form\RecipesType;
+use App\Form\IngredientsType;
 use App\Repository\ProcedureRepository;
 use App\Repository\RecipesRepository;
 use App\Repository\UserRepository;
@@ -28,14 +32,18 @@ class RecipesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_recipes_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProcedureRepository $procedureRepository, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
+    public function new(ManagerRegistry $doctrine,Request $request, ProcedureRepository $procedureRepository, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
         $recipe = new Recipes();
         $procedure = new Procedure();
+        $ing = new Ingredients();
         $form = $this->createForm(RecipesType::class, $recipe);
+        $form2 = $this->createForm(IngredientsType::class, $ing);
         $form->handleRequest($request);
+        $form2->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $inputProcudure = $form->get('procedure')->getData();
             $procedure->setInstructions($inputProcudure);
             $recipe->setFkProcedure($procedure);
@@ -47,7 +55,25 @@ class RecipesController extends AbstractController
             } else {
                 $recipe->setPicture("default.png");
             }
+
             $recipesRepository->save($recipe, true);
+
+            $ingredients = $form2->get("name")->getData();
+            $ingredients = explode(", ", $ingredients );
+            $em = $doctrine->getManager();
+            foreach($ingredients as $ingredient){
+
+                $ing = new Ingredients();
+                $joinRec = new JoinRecipe();
+                $ing->setName($ingredient);
+                $em->persist($ing);
+                $em->flush();
+                $joinRec->setFkRecipes($recipe);
+                $joinRec->setFkIngredients($ing);
+                $em->persist($joinRec);
+                $em->flush();
+            }
+
             $procedureRepository->save($procedure, true);
 
             return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
@@ -56,6 +82,7 @@ class RecipesController extends AbstractController
         return $this->renderForm('recipes/new.html.twig', [
             'recipe' => $recipe,
             'form' => $form,
+            "form2"=> $form2->createView()
         ]);
     }
 
@@ -63,6 +90,7 @@ class RecipesController extends AbstractController
     public function show($id, RecipesRepository $recipesRepository): Response
     {
         $recipes = $recipesRepository->find($id);
+
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipes,
         ]);
