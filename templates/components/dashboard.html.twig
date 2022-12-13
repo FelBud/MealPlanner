@@ -1,73 +1,49 @@
-{% extends "base.html.twig" %} {% block body %}
-<div class="container">
-    <h3>User: {{user.id}}</h3>
-    <hr>
+{% extends 'base.html.twig' %} {% block title %}Recipes index{% endblock %} {% block body %}
+<div class="container mb-3">
+    <div id="recipe-box">
+        <div class="d-flex justify-content-between">
+            <h1 class="text-center">All Recipes</h1>
+            <a href="{{ path('app_recipes_new') }}" class="btn btn-outline-dark align-self-baseline"><i class="fa-solid fa-plus me-2"></i>add new recipe</a>
+        </div>
+        <tr>
+            <td><img src="{{recipes.fkUser.picture}}" width="70" class="rounded"></td>
+            <td>{{ recipes.fkUser.name }}</td>
+            <td>{{ recipes.fkUser.email }}</td>
+            <td>{{ recipes.fkUser.gender }}</td>
 
-    <table class="table mt-5">
-        <thead>
+            <td>
+        </tr>
 
-            <tr>
-                <th>
-                    Picture
-                </th>
-                <th class="uppercase">
-                    Name
-                </th>
-                <th>
-                    Email
-                </th>
-                <th>
-                    Gender
-                </th>
-
-                <th>
-                    Action
-                </th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <!--Loop for all users-->
-
-            {% for user in users %}
-            <tr>
-                <td><img src="{{asset('pictures/'~user.Picture)}}"></td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.gender }}</td>
-
-                <td>
-
-                    <a href="/{{user.id}}/edit"><button class="btn btn-sm btn-outline-dark">Edit</button></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="my-5">
-        <h3 class="">Recipes in Progress:</h3>
         <hr>
 
-        <!--Loop of all Recipes in Progress-->
 
-        <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
             {% for recipe in recipes %}
-            <!-- needs a if condition only recipes in Progress-->
-            {% if recipe.status == "in progress" %}
             <div class="col">
                 <div class="card">
-                    <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top">
+                    <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top cardImage">
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.Name }}</h5>
                         <p class="card-text"><i class="fa-regular fa-user me-2"></i>{{ recipe.Servings }} Servings </p>
-                        <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }}</p>
-                        <a href="/static/{{recipe.id}}/show"><button class="btn btn-outline-dark">Details</button></a>
+                        <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }} min</p>
+                        <!--Buttons-->
+                        <div class="d-flex justify-content-end">
 
+                            <!--If Admin-->
+                            {% if is_granted("ROLE_ADMIN") %}
+                            <a href="{{ path('app_recipes_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a>
+                            <a href="{{ path('app_recipes_edit', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-pencil me-2"></i>Edit</button></a>
+                            <a href="{{ path('app_recipes_delete', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-regular fa-circle-xmark me-2"></i>Delete</button></a>
+                            <!--If user-->
+                            {% elseif is_granted("ROLE_USER") %}
+                            <a href="{{ path('app_recipes_user_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a>
+                            <a href="{{ path('app_weekplanner_new', {'id': recipe.id}) }}"><button class="btn btn-outline-dark"><i class="fa-solid fa-plus me-2"></i>Add to Planner</button></a> {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
-            {% endif %} {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </div>
