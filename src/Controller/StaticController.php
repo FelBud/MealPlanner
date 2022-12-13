@@ -25,7 +25,7 @@ class StaticController extends AbstractController
     #[Route('/', name: 'app_static')]
     public function index(RecipesRepository $recipesRepository): Response
     {
-        return $this->render('recipes/index.html.twig', [
+        return $this->render('components/dashboard.html.twig', [
             'recipes' => $recipesRepository->findBy(["fkUser" => $this->getUser()]),
         ]);
     }
