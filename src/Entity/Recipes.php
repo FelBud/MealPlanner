@@ -37,6 +37,12 @@ class Recipes
     #[ORM\JoinColumn(nullable: false)]
     private ?Procedure $fkProcedure = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Status = null;
+
+    #[ORM\ManyToOne]
+    private ?User $fkUser = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,6 +130,30 @@ class Recipes
     public function setFkProcedure(Procedure $fkProcedure): self
     {
         $this->fkProcedure = $fkProcedure;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->Status;
+    }
+
+    public function setStatus(?string $Status): self
+    {
+        $this->Status = $Status;
+
+        return $this;
+    }
+
+    public function getFkUser(): ?User
+    {
+        return $this->fkUser;
+    }
+
+    public function setFkUser(?User $fkUser): self
+    {
+        $this->fkUser = $fkUser;
 
         return $this;
     }
