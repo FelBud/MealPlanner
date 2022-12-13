@@ -38,7 +38,7 @@ class Recipes
     private ?Procedure $fkProcedure = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Status = null;
+    private ?string $Status = "in progress";
 
     #[ORM\ManyToOne]
     private ?User $fkUser = null;
