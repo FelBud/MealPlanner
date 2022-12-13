@@ -1,49 +1,74 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %} {% block body %}
+<div class="container">
+    <h3>Users:</h3>
+    <hr>
 
-{% block title %}User index{% endblock %}
-
-{% block body %}
-    <h1>User index</h1>
-
-    <table class="table">
+    <table class="table mt-5">
         <thead>
+
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Name</th>
-                <th>Gender</th>
-                <th>Picture</th>
-                <th>actions</th>
+                <th>
+                    Picture
+                </th>
+                <th class="uppercase">
+                    Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Gender
+                </th>
+
+                <th>
+                    Action
+                </th>
             </tr>
         </thead>
+
         <tbody>
-        {% for user in users %}
+            <!--Loop for all users-->
+
+            {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+                <td><img src="{{asset('pictures/'~user.Picture)}}"></td>
                 <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
                 <td>{{ user.gender }}</td>
-                <td>{{ user.picture }}</td>
+
                 <td>
-                    {# <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a> #}
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                    <a href="{{ path('app_user_delete', {'id': user.id}) }}">delete</a>
-                    <a href="{{ path('app_user_block', {'id': user.id}) }}">block</a>
-                    {# <a href="{{ path('app_user_edit', {'id': user.id}) }}">block</a> #}
+                    <a href=""><button class="btn btn-sm btn-outline-dark">Block</button></a>
+                    <a href="/{{user.id}}/edit"><button class="btn btn-sm btn-outline-dark">Edit</button></a>
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
 
-    {# <a href="{{ path('app_user_new') }}">Create new</a> #}
+    <div class="my-5">
+        <h3 class="">Recipes in Progress:</h3>
+        <hr>
 
-{% endblock %}
+        <!--Loop of all Recipes in Progress-->
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+            {% for recipe in recipes %}
+            <!-- needs a if condition only recipes in Progress-->
+            {% if recipe.status == "in progress" %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.Name }}</h5>
+                        <p class="card-text"><i class="fa-regular fa-user me-2"></i>{{ recipe.Servings }} Servings </p>
+                        <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }}</p>
+                        <a href=""><button class="btn btn-outline-dark">Details</button></a>
+                        <a href=""><button class="btn btn-outline-dark">Approve</button></a>
+                    </div>
+                </div>
+            </div>
+            {% endif %} {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} {# <a href="{{ path('app_user_block', {'id': user.id}) }}">block</a> #} {# <a href="{{ path('app_user_new') }}">Create new</a> #}

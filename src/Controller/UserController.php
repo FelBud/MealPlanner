@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Recipes;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Repository\RecipesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,11 +15,21 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin')]
 class UserController extends AbstractController
 {
-    #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'app_dashboard', methods: ['GET'])]
+    public function dashboard(UserRepository $usersRepository, RecipesRepository $recipesRepository): Response
     {
+        $array = [];
+        $user = $usersRepository->findAll();
+        foreach ($user as $key => $value) {
+            if($value->getRoles()[0] != "ROLE_ADMIN") {
+                array_push($array, $value);
+            }
+
+        }
+
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $array,
+            'recipes' => $recipesRepository->findAll(),
         ]);
     }
 
@@ -86,21 +98,5 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/dashboard', name: 'app_dashboard', methods: ['GET'])]
-    public function dashboard(UserRepository $usersRepository, RecipesRepository $recipesRepository): Response
-    {
-        $array = [];
-        $user = $usersRepository->findAll();
-        foreach ($user as $key => $value) {
-            if($value->getRoles()[0] != "ROLE_ADMIN") {
-                array_push($array, $value);
-            }
-
-        }
-
-        return $this->render('components/dashboard.html.twig', [
-            'users' => $array,
-            'recipes' => $recipesRepository->findAll(),
-        ]);
-    }
+ 
 }

@@ -18,10 +18,15 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="/about">About</a>
                 </li>
-                {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+                {% if is_granted("ROLE_ADMIN") %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="/recipes/dashboard">Dashboard</a>
+                    <a class="nav-link active" href="/admin/">Dashboard</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/logout">Logout</a>
+                </li>
+                {% elseif is_granted("ROLE_USER") %}
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Weekplanner</a>
                 </li>
@@ -29,7 +34,6 @@
                     <a class="nav-link active" href="/logout">Logout</a>
                 </li>
                 {% endif %}
-
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Company
