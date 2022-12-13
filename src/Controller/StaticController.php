@@ -9,6 +9,7 @@ use App\Entity\Recipes;
 use App\Entity\Weekplanner;
 use App\Form\RecipesType;
 use App\Repository\RecipesRepository;
+use App\Repository\JoinRecipeRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FileUploadError;
@@ -55,7 +56,7 @@ class StaticController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'app_recipes_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'app_recipes_user_show', methods: ['GET'])]
     public function show($id, RecipesRepository $recipesRepository, JoinRecipeRepository $JoinRecipeRepository): Response
     {
         $recipes = $recipesRepository->find($id);

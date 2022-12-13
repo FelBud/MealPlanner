@@ -20,13 +20,15 @@
                         <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }} min</p>
                         <!--Buttons-->
                         <div class="d-flex justify-content-end">
-                            <a href="{{ path('app_recipes_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a>
+
                             <!--If Admin-->
                             {% if is_granted("ROLE_ADMIN") %}
+                            <a href="{{ path('app_recipes_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a>
                             <a href="{{ path('app_recipes_edit', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-pencil me-2"></i>Edit</button></a>
                             <a href="{{ path('app_recipes_delete', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-regular fa-circle-xmark me-2"></i>Delete</button></a>
                             <!--If user-->
                             {% elseif is_granted("ROLE_USER") %}
+                            <a href="{{ path('app_recipes_user_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a>
                             <a href="{{ path('app_weekplanner_new', {'id': recipe.id}) }}"><button class="btn btn-outline-dark"><i class="fa-solid fa-plus me-2"></i>Add to Planner</button></a> {% endif %}
                         </div>
                     </div>
