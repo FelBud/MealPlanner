@@ -1,0 +1,74 @@
+{% extends "base.html.twig" %} {% block body %}
+<div class="container">
+    <h3>User: {{user.id}}</h3>
+    <hr>
+
+    <table class="table mt-5">
+        <thead>
+
+            <tr>
+                <th>
+                    Picture
+                </th>
+                <th class="uppercase">
+                    Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Gender
+                </th>
+
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!--Loop for all users-->
+
+            {% for user in users %}
+            <tr>
+                <td><img src="{{asset('pictures/'~user.Picture)}}"></td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.gender }}</td>
+
+                <td>
+
+                    <a href="/{{user.id}}/edit"><button class="btn btn-sm btn-outline-dark">Edit</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="my-5">
+        <h3 class="">Recipes in Progress:</h3>
+        <hr>
+
+        <!--Loop of all Recipes in Progress-->
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+            {% for recipe in recipes %}
+            <!-- needs a if condition only recipes in Progress-->
+            {% if recipe.status == "in progress" %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.Name }}</h5>
+                        <p class="card-text"><i class="fa-regular fa-user me-2"></i>{{ recipe.Servings }} Servings </p>
+                        <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }}</p>
+                        <a href=""><button class="btn btn-outline-dark">Details</button></a>
+
+                    </div>
+                </div>
+            </div>
+            {% endif %} {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

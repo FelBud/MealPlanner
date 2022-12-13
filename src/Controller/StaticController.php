@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Ingredients;
+use App\Entity\JoinRecipe;
+use App\Entity\User;
 use App\Entity\Recipes;
 use App\Entity\Weekplanner;
 use App\Form\RecipesType;
@@ -13,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/static')]
 class StaticController extends AbstractController
@@ -21,7 +25,7 @@ class StaticController extends AbstractController
     public function index(RecipesRepository $recipesRepository): Response
     {
         return $this->render('recipes/index.html.twig', [
-            'recipes' => $recipesRepository->findAll(),
+            'recipes' => $recipesRepository->findBy(["fkUser" => $this->getUser()]),
         ]);
     }
 
@@ -64,6 +68,72 @@ class StaticController extends AbstractController
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipe,
         ]);
+    }
+    #[Route('/{id}/edit', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
+    public function dashboard($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
+    {
+        if($this->getUser() == $recipe->getFkUser()){
+            
+        $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes"=>$id));
+        $string = "";
+
+        foreach($ings as $ing){
+            $string .= $ing->getFkIngredients()->getName() . ", ";
+        }
+        
+        $form = $this->createForm(RecipesType::class, $recipe);
+        $editIng = new Ingredients();
+        $editIng->setName($string);
+        $form2 = $this->createForm(IngredientsType::class, $editIng);
+
+        $form->handleRequest($request);
+        $form2->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $doctrine->getManager();
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                unlink("pictures/" . $recipe->getPicture());
+                $pictureFileName = $fileUploader->upload($pictureFile);
+                $recipe->setPicture($pictureFileName);
+            } else {
+                $recipe->setPicture("default.png");
+            }
+
+            $stringToArray = explode(", ", $string);
+            foreach ($ings as $value) {
+                $em->remove($value);
+                $em->flush();
+
+            }
+            $ingredients = $form2->get("name")->getData();
+            $ingredients = explode(", ", $ingredients );
+            
+            foreach($ingredients as $ingredient){
+                $ing = new Ingredients();
+                $joinRec = new JoinRecipe();
+                $ing->setName($ingredient);
+                $em->persist($ing);
+                $em->flush();
+                $joinRec->setFkRecipes($recipe);
+                $joinRec->setFkIngredients($ing);
+                $em->persist($joinRec);
+                $em->flush();
+            }
+            $recipesRepository->save($recipe, true);
+
+            return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+
+        return $this->renderForm('recipes/edit.html.twig', [
+            'recipe' => $recipe,
+            'form' => $form,
+            "form2"=> $form2->createView()
+        ]);
+    }else{
+        return $this->redirectToRoute('app_static');
+    }
     }
 
     #[Route('/{id}/edit', name: 'app_recipes_edit_user', methods: ['GET', 'POST'])]
