@@ -51,6 +51,7 @@ class RecipesController extends AbstractController
             $inputProcudure = $form->get('procedure')->getData();
             $procedure->setInstructions($inputProcudure);
             $recipe->setFkProcedure($procedure);
+            $recipe->setFkUser($this->getUser());
 
             $pictureFile = $form->get('picture')->getData();
             if ($pictureFile) {
