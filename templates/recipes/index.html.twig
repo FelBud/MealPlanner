@@ -9,8 +9,7 @@
 
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
-
-            {% for recipe in recipes %}
+            {% for recipe in recipes %} {% if recipe.status == "aproved" %}
             <div class="col">
                 <div class="card">
                     <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top cardImage">
@@ -34,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
+            {% endif %}{% endfor %}
         </div>
     </div>
 </div>

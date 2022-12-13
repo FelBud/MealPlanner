@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\Recipes;
 use App\Entity\Weekplanner;
 use App\Form\RecipesType;
+use App\Form\IngredientsType;
 use App\Repository\RecipesRepository;
 use App\Repository\JoinRecipeRepository;
 use App\Repository\UserRepository;
