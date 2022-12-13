@@ -69,7 +69,7 @@ class StaticController extends AbstractController
             'recipe' => $recipe,
         ]);
     }
-    #[Route('/dashboard', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
     public function dashboard($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
        
@@ -138,32 +138,32 @@ class StaticController extends AbstractController
     }
     }
 
-    #[Route('/{id}/edit', name: 'app_recipes_edit_user', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
-    {
-        $form = $this->createForm(RecipesType::class, $recipe);
-        $form->handleRequest($request);
+    // #[Route('/{id}/edit', name: 'app_recipes_edit_user', methods: ['GET', 'POST'])]
+    // public function edit(Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
+    // {
+    //     $form = $this->createForm(RecipesType::class, $recipe);
+    //     $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile) {
-                unlink("pictures/".$recipe->getPicture());
-                $pictureFileName = $fileUploader->upload($pictureFile);
-                $recipe->setPicture($pictureFileName);
-            }else {
-                $recipe->setPicture("default.png");
-            }
-            $recipesRepository->save($recipe, true);
+    //     if($form->isSubmitted() && $form->isValid()) {
+    //         $pictureFile = $form->get('picture')->getData();
+    //         if ($pictureFile) {
+    //             unlink("pictures/".$recipe->getPicture());
+    //             $pictureFileName = $fileUploader->upload($pictureFile);
+    //             $recipe->setPicture($pictureFileName);
+    //         }else {
+    //             $recipe->setPicture("default.png");
+    //         }
+    //         $recipesRepository->save($recipe, true);
 
-            return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
+    //     }
 
 
-        return $this->render('recipes/edit.html.twig', [
-            'recipe' => $recipe,
-            'form' => $form,
-        ]);
-    }
+    //     return $this->render('recipes/edit.html.twig', [
+    //         'recipe' => $recipe,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     #[Route('/{id}', name: 'app_recipes_delete_user', methods: ['POST'])]
     public function delete(Request $request, Recipes $recipe, RecipesRepository $recipesRepository): Response
