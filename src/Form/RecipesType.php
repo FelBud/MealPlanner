@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Procedure;
 use App\Entity\Recipes;
+use Doctrine\DBAL\Types\DecimalType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -34,7 +35,7 @@ class RecipesType extends AbstractType
                 
                 "attr"=>["class"=>"form-control mb-2"]])
             ->add('Servings', IntegerType::class, ["attr"=>["placeholder"=>"for how many people", "class"=>"form-control mb-2"]])
-            ->add('Price',  IntegerType::class, ["attr"=>["placeholder"=>"The approximately price of the ingredients", "class"=>"form-control mb-2"]])
+            ->add('Price',  NumberType::class, ["attr"=>["placeholder"=>"The approximately price of the ingredients", "class"=>"form-control mb-2"]])
             ->add('Time' , IntegerType::class, ["attr"=>["placeholder"=>"preparation time in minutes", "class"=>"form-control mb-2"]])
             ->add('procedure', TextareaType::class,["mapped"=>false,"attr"=>["placeholder"=>"preparation", "class"=>"form-control mb-2"]])
             

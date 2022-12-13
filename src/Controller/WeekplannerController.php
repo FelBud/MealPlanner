@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Weekplanner;
 use App\Form\WeekplannerType;
 use App\Form\RecipesType;
+use App\Repository\JoinRecipeRepository;
 use App\Repository\RecipesRepository;
 use App\Repository\WeekplannerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,11 +49,15 @@ class WeekplannerController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_weekplanner_show', methods: ['GET'])]
-    public function show(Weekplanner $weekplanner): Response
+    #[Route('/{id}/show', name: 'app_weekplanner_show', methods: ['GET'])]
+    public function show($id, RecipesRepository $recipesRepository, JoinRecipeRepository $JoinRecipeRepository): Response
     {
-        return $this->render('weekplanner/show.html.twig', [
-            'weekplanner' => $weekplanner,
+        $recipes = $recipesRepository->find($id);
+        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes" => $id));
+
+        return $this->render('recipes/show.html.twig', [
+            'recipe' => $recipes,
+            'joinRecipe' => $joinRecipe,
         ]);
     }
 
