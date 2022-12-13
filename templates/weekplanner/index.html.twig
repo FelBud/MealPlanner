@@ -9,35 +9,19 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>day</th>
+                <th>WeekDay</th>
                 <th>MealTime</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for weekplanner in weekplanners %}
             <tr>
                 <td>{{ weekplanner.fkRecipes.name }}</td>
-                <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td>
+                {# <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td> #}
+                <td>{{ weekplanner.weekday }}</td>
                 <td>{{ weekplanner.mealTime }}</td>
-                <td>
-                    <select>
-                    <option>Mon.</option>
-                    <option>Tue.</option>
-                    <option>Wed.</option>
-                    <option>Thu.</option>
-                    <option>Fri.</option>
-                    <option>Sat.</option>
-                    <option>Sun.</option>
-                     </select>
-                </td>
-                <td>
-                    <select>
-                    <option>Breakfast</option>
-                    <option>Lunch</option>
-                    <option>Dinner</option>
-                     </select>
-                </td>
+                
                 <td>
                     {# <a href="{{ path('app_static_show', {'id': weekplanner.fkRecipes.id}) }}">show</a> #}
                     <a href="/recipes/{{weekplanner.fkRecipes.id }}/show">show</a>
@@ -51,6 +35,9 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ path('app_static') }}">back to list</a>
+
 
     {# <a href="{{ path('app_weekplanner_new') }}">Create new</a> #}
 {% endblock %}
