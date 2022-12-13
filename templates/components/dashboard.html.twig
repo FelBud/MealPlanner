@@ -55,9 +55,6 @@
                         <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }} min</p>
                         <!--Buttons-->
                         <div class="d-flex justify-content-end">
-
-
-
                             <!--If user-->
                             {% if recipe.status == "in progress" %}
                             <a href="{{ path('app_dashboard_edit', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2">Edit</button></a> {% endif %}
