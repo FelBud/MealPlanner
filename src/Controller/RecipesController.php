@@ -14,12 +14,14 @@ use App\Repository\IngredientsRepository;
 use App\Repository\JoinRecipeRepository;
 use App\Repository\RecipesRepository;
 use App\Repository\UserRepository;
+use App\Repository\WeekplannerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FileUploadError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/recipes')]
@@ -34,7 +36,7 @@ class RecipesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_recipes_new', methods: ['GET', 'POST'])]
-    public function new(ManagerRegistry $doctrine,Request $request, ProcedureRepository $procedureRepository, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
+    public function new(ManagerRegistry $doctrine, Request $request, ProcedureRepository $procedureRepository, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
         $recipe = new Recipes();
         $procedure = new Procedure();
@@ -45,7 +47,7 @@ class RecipesController extends AbstractController
         $form2->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $inputProcudure = $form->get('procedure')->getData();
             $procedure->setInstructions($inputProcudure);
             $recipe->setFkProcedure($procedure);
@@ -61,9 +63,9 @@ class RecipesController extends AbstractController
             $recipesRepository->save($recipe, true);
 
             $ingredients = $form2->get("name")->getData();
-            $ingredients = explode(", ", $ingredients );
+            $ingredients = explode(", ", $ingredients);
             $em = $doctrine->getManager();
-            foreach($ingredients as $ingredient){
+            foreach ($ingredients as $ingredient) {
 
                 $ing = new Ingredients();
                 $joinRec = new JoinRecipe();
@@ -84,7 +86,7 @@ class RecipesController extends AbstractController
         return $this->renderForm('recipes/new.html.twig', [
             'recipe' => $recipe,
             'form' => $form,
-            "form2"=> $form2->createView()
+            "form2" => $form2->createView()
         ]);
     }
 
@@ -92,8 +94,8 @@ class RecipesController extends AbstractController
     public function show($id, RecipesRepository $recipesRepository, JoinRecipeRepository $JoinRecipeRepository): Response
     {
         $recipes = $recipesRepository->find($id);
-        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes"=> $id));
-        
+        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes" => $id));
+
 
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipes,
@@ -104,13 +106,13 @@ class RecipesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_recipes_edit', methods: ['GET', 'POST'])]
     public function edit($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
-        $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes"=>$id));
+        $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes" => $id));
         $string = "";
 
-        foreach($ings as $ing){
+        foreach ($ings as $ing) {
             $string .= $ing->getFkIngredients()->getName() . ", ";
         }
-        
+
         $form = $this->createForm(RecipesType::class, $recipe);
         $editIng = new Ingredients();
         $editIng->setName($string);
@@ -134,12 +136,11 @@ class RecipesController extends AbstractController
             foreach ($ings as $value) {
                 $em->remove($value);
                 $em->flush();
-
             }
             $ingredients = $form2->get("name")->getData();
-            $ingredients = explode(", ", $ingredients );
-            
-            foreach($ingredients as $ingredient){
+            $ingredients = explode(", ", $ingredients);
+
+            foreach ($ingredients as $ingredient) {
                 $ing = new Ingredients();
                 $joinRec = new JoinRecipe();
                 $ing->setName($ingredient);
@@ -159,18 +160,36 @@ class RecipesController extends AbstractController
         return $this->renderForm('recipes/edit.html.twig', [
             'recipe' => $recipe,
             'form' => $form,
-            "form2"=> $form2->createView()
+            "form2" => $form2->createView()
         ]);
     }
 
-    #[Route('/{id}', name: 'app_recipes_delete', methods: ['POST'])]
-    public function delete(Request $request, Recipes $recipe, RecipesRepository $recipesRepository): Response
+    #[Route('/{id}/delete', name: 'app_recipes_delete')]
+    public function delete($id, WeekplannerRepository $weekplannerRepository, RecipesRepository $recipesRepository, JoinRecipeRepository $joinRecipeRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $recipe->getId(), $request->request->get('_token'))) {
+        $weekplanner = $weekplannerRepository->findBy(['fkRecipes' => $id]);
+
+        // dd($joinRecipes);
+
+        if (count($weekplanner) == 0) {
+            // fetch data to delete
+            $joinRecipes = $joinRecipeRepository->findBy(['fkRecipes' => $id]);
+            $recipe = $recipesRepository->find($id);
+
+            // delete
+            foreach ($joinRecipes as $joinRecipe) {
+                $joinRecipeRepository->remove($joinRecipe, true);
+            }
             $recipesRepository->remove($recipe, true);
+            
         }
-
+        
         return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
-    }
 
+        // if ($this->isCsrfTokenValid('delete' . $recipe->getId($id), $request->request->get('_token'))) {
+        //     $recipesRepository->remove($recipe, true);
+        // }
+
+        // return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
