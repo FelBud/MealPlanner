@@ -163,7 +163,7 @@ a.dropdown-item:hover {
 }
 
 .btnsize {
-    width: 10px !important;
+    width: 100px !important;
 }
 
 
@@ -180,6 +180,5 @@ a.dropdown-item:hover {
     margin-top: 10%;
 }
 
-.myBtn {
-    padding: 0 2rem !important;
-}
+
+/* buttons */
