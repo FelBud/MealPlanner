@@ -158,19 +158,16 @@ a.dropdown-item:hover {
     font-size: 300%;
 }
 
-.button {
-    width: 10%;
-}
-
-.btnsize {
-    width: 100px !important;
-}
-
 
 /* Recipe Index */
 
 .headings {
     font-family: 'system-ui';
+}
+
+.cardImage {
+    height: 40vh;
+    object-fit: cover;
 }
 
 
@@ -182,3 +179,7 @@ a.dropdown-item:hover {
 
 
 /* buttons */
+
+.btnsize {
+    width: 100px !important;
+}

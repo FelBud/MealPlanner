@@ -13,7 +13,7 @@
             {% for recipe in recipes %}
             <div class="col">
                 <div class="card">
-                    <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top">
+                    <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top cardImage">
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.Name }}</h5>
                         <p class="card-text"><i class="fa-regular fa-user me-2"></i>{{ recipe.Servings }} Servings </p>
