@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 12. Dez 2022 um 12:31
+-- Erstellungszeit: 13. Dez 2022 um 10:14
 -- Server-Version: 10.4.21-MariaDB
 -- PHP-Version: 8.1.6
 
@@ -74,7 +74,16 @@ INSERT INTO `ingredients` (`id`, `name`) VALUES
 (7, 'Ketchup'),
 (8, 'Chicken breast'),
 (9, 'Oil'),
-(10, 'Butter');
+(10, 'Butter'),
+(11, 'egg'),
+(12, 'test'),
+(13, 'test2'),
+(14, 'test'),
+(15, 'test2'),
+(16, 'test3'),
+(17, 'butter'),
+(18, 'tomato'),
+(19, 'egg');
 
 -- --------------------------------------------------------
 
@@ -87,6 +96,13 @@ CREATE TABLE `join_recipe` (
   `fk_recipes_id` int(11) NOT NULL,
   `fk_ingredients_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Daten für Tabelle `join_recipe`
+--
+
+INSERT INTO `join_recipe` (`id`, `fk_recipes_id`, `fk_ingredients_id`) VALUES
+(6, 4, 19);
 
 -- --------------------------------------------------------
 
@@ -122,7 +138,10 @@ CREATE TABLE `procedure` (
 
 INSERT INTO `procedure` (`id`, `instructions`, `time`) VALUES
 (1, 'How to make it:\r\nStep 1:\r\n\r\nLay out the cutlets, remove any skin and pound until thin. Season on both sides with salt and pepper. Place flour and breadcrumbs into separate flat plates, beat the eggs together on a further plate using a fork.\r\nCoat each schnitzel on both sides in flour, then draw through the beaten eggs, ensuring that no part of the schnitzel remains dry. Lastly, coat in the breadcrumbs and carefully press down the crumbs using the reverse side of the fork (this causes the crumb coating to “fluff up” better during cooking).\r\nStep 2:\r\n\r\nIn a large pan (or 2 medium-sized pans), melt sufficient clarified butter for the schnitzel to be able to swim freely in the oil (or heat up the plant oil with 1 – 2 tbsp of clarified butter or butter).\r\nOnly place the schnitzel in the pan when the fat is so hot that it hisses and bubbles up if some breadcrumbs or a small piece of butter is added to it.\r\nDepending on the thickness and the type of meat, fry for 2 to 4 minutes until golden brown. Turn using a spatula (do not pierce the coating!) and fry on the other side until it is of similar colour.\r\nStep 3:\r\n\r\nRemove the crispy schnitzel and place on kitchen paper to dry off. Dab carefully. Arrange the schnitzel on the plate and garnish with slices of lemon before serving.\r\nServe with parsley potatoes, rice, potato salad or mixed salad.\r\n\r\nCooking time: depending on the thickness and the meat: 4 – 8 minutes', NULL),
-(2, ' Step 1\r\n\r\nIn a bowl, mix ground beef, egg, onion, bread crumbs, Worcestershire, garlic, 1/2 teaspoon salt, and 1/4 teaspoon pepper until well blended. Divide mixture into four equal portions and shape each into a patty about 4 inches wide.\r\nStep 2\r\n\r\nLay burgers on an oiled barbecue grill over a solid bed of hot coals or high heat on a gas grill (you can hold your hand at grill level only 2 to 3 seconds); close lid on gas grill. Cook burgers, turning once, until browned on both sides and no longer pink inside (cut to test), 7 to 8 minutes total. Remove from grill.\r\nStep 3\r\n\r\nLay buns, cut side down, on grill and cook until lightly toasted, 30 seconds to 1 minute.\r\nStep 4\r\n\r\nSpread mayonnaise and ketchup on bun bottoms. Add lettuce, tomato, burger, onion, and salt and pepper to taste. Set bun tops in place.\r\n', NULL);
+(2, ' Step 1\r\n\r\nIn a bowl, mix ground beef, egg, onion, bread crumbs, Worcestershire, garlic, 1/2 teaspoon salt, and 1/4 teaspoon pepper until well blended. Divide mixture into four equal portions and shape each into a patty about 4 inches wide.\r\nStep 2\r\n\r\nLay burgers on an oiled barbecue grill over a solid bed of hot coals or high heat on a gas grill (you can hold your hand at grill level only 2 to 3 seconds); close lid on gas grill. Cook burgers, turning once, until browned on both sides and no longer pink inside (cut to test), 7 to 8 minutes total. Remove from grill.\r\nStep 3\r\n\r\nLay buns, cut side down, on grill and cook until lightly toasted, 30 seconds to 1 minute.\r\nStep 4\r\n\r\nSpread mayonnaise and ketchup on bun bottoms. Add lettuce, tomato, burger, onion, and salt and pepper to taste. Set bun tops in place.\r\n', NULL),
+(3, 'test', NULL),
+(4, 'test', NULL),
+(5, 'test', NULL);
 
 -- --------------------------------------------------------
 
@@ -148,7 +167,10 @@ CREATE TABLE `recipes` (
 --
 
 INSERT INTO `recipes` (`id`, `fk_procedure_id`, `name`, `picture`, `category`, `servings`, `price`, `time`, `status`, `fk_user_id`) VALUES
-(1, 1, 'Test', 'index-638f409846cec.jpg', 'test', 2, '1.20', '1 sec', 'in progress', NULL);
+(1, 1, 'Test', 'index-638f409846cec.jpg', 'test', 2, '1.20', '1 sec', 'in progress', NULL),
+(2, 3, 'test', 'default.png', 'Vegetarian', 22, '22.00', '22', NULL, NULL),
+(3, 4, 'test', 'default.png', 'Vegetarian', 22, '22.00', '22', NULL, NULL),
+(4, 5, 'test', 'default.png', 'Vegan', 22, '22.00', '20', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -173,7 +195,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `name`, `gender`, `picture`, `status`) VALUES
 (1, 'silia@mail.com', '[\"ROLE_ADMIN\"]', '$2y$13$RaCyhmIuAo8ashzVNsWCl.EsPyRycmWIlsTeCtUGSJj5ERcsYlq/i', 'cronauer', 'female', 'www', NULL),
-(2, 'silia.maria@web.de', '[]', '$2y$13$SQ1XlEXcEx7L2LJbsRBr2Os9foAfEgy4oEuYosJ6gWkZo90Z5T0hm', 'silia', 'female', 'www', NULL);
+(2, 'silia.maria@web.de', '[]', '$2y$13$SQ1XlEXcEx7L2LJbsRBr2Os9foAfEgy4oEuYosJ6gWkZo90Z5T0hm', 'silia', 'female', 'www', NULL),
+(3, 'hans@aol.com', '[]', '$2y$13$U4yYx1b..oubEFzNNL8Gb.TzDQDg5LstL3I7TE5gCIYwqrA37Cb66', 'hans', 'male', 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80', NULL);
 
 -- --------------------------------------------------------
 
@@ -186,17 +209,18 @@ CREATE TABLE `weekplanner` (
   `date` date NOT NULL,
   `meal_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `fk_user_id` int(11) DEFAULT NULL,
-  `fk_recipes_id` int(11) DEFAULT NULL
+  `fk_recipes_id` int(11) DEFAULT NULL,
+  `weekday` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Daten für Tabelle `weekplanner`
 --
 
-INSERT INTO `weekplanner` (`id`, `date`, `meal_time`, `fk_user_id`, `fk_recipes_id`) VALUES
-(1, '2022-12-09', 'Breakfast', NULL, NULL),
-(2, '2022-12-13', 'Lunch', NULL, NULL),
-(3, '2022-12-14', 'Dinner', NULL, NULL);
+INSERT INTO `weekplanner` (`id`, `date`, `meal_time`, `fk_user_id`, `fk_recipes_id`, `weekday`) VALUES
+(1, '2022-12-09', 'Breakfast', NULL, NULL, ''),
+(2, '2022-12-13', 'Lunch', NULL, NULL, ''),
+(3, '2022-12-14', 'Dinner', NULL, NULL, '');
 
 --
 -- Indizes der exportierten Tabellen
@@ -268,13 +292,13 @@ ALTER TABLE `weekplanner`
 -- AUTO_INCREMENT für Tabelle `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT für Tabelle `join_recipe`
 --
 ALTER TABLE `join_recipe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT für Tabelle `messenger_messages`
@@ -286,19 +310,19 @@ ALTER TABLE `messenger_messages`
 -- AUTO_INCREMENT für Tabelle `procedure`
 --
 ALTER TABLE `procedure`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT für Tabelle `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `weekplanner`
