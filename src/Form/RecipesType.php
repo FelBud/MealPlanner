@@ -7,6 +7,7 @@ use App\Entity\Recipes;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -23,13 +24,22 @@ class RecipesType extends AbstractType
     {
         $builder
         ->add('name', TextType::class, ["attr"=>["placeholder"=>"please type the recipe name", "class"=>"form-control mb-2", "style" => "width: 700px"]])
-            ->add('Category', TextType::class, ["attr"=>["placeholder"=>"Vegan, Vegetarian, Universal, etc...", "class"=>"form-control mb-2"]])
-            ->add('Servings', NumberType::class, ["attr"=>["placeholder"=>"for how many people", "class"=>"form-control mb-2"]])
-            ->add('Price',  NumberType::class, ["attr"=>["placeholder"=>"The max price of the ingrediants", "class"=>"form-control mb-2"]])
-            ->add('Time' , TextType::class, ["attr"=>["placeholder"=>"preparation time", "class"=>"form-control mb-2"]])
+            ->add('Category', ChoiceType::class, [
+                'choices' => [
+                    'universal' => "Universal",
+                    'vegan' => "Vegan",
+                    'vegetarian' => "Vegetarian"],
+                
+                
+                
+                "attr"=>["class"=>"form-control mb-2"]])
+            ->add('Servings', IntegerType::class, ["attr"=>["placeholder"=>"for how many people", "class"=>"form-control mb-2"]])
+            ->add('Price',  IntegerType::class, ["attr"=>["placeholder"=>"The approximately price of the ingredients", "class"=>"form-control mb-2"]])
+            ->add('Time' , IntegerType::class, ["attr"=>["placeholder"=>"preparation time in minutes", "class"=>"form-control mb-2"]])
             ->add('procedure', TextareaType::class,["mapped"=>false,"attr"=>["placeholder"=>"preparation", "class"=>"form-control mb-2"]])
             
                 ->add('picture', FileType::class, [
+                    "attr"=>array("class"=>"form-control mb-2"),
                     'label' => 'Picture',
 
                   

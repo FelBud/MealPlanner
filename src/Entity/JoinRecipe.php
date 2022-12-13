@@ -19,7 +19,7 @@ class JoinRecipe
 
     #[ORM\ManyToOne(inversedBy: 'joinRecipes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Ingredients $fkIngredients = null;
+    public ?Ingredients $fkIngredients = null;
 
     public function getId(): ?int
     {
