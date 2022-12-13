@@ -1,43 +1,38 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Weekplanner index{% endblock %} {% block body %}
 
-{% block title %}Weekplanner index{% endblock %}
 
-{% block body %}
-    <h1>Weekplanner index</h1>
+<h1>Weekplanner index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>WeekDay</th>
-                <th>MealTime</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>WeekDay</th>
+            <th>MealTime</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for weekplanner in weekplanners %}
-            <tr>
-                <td>{{ weekplanner.fkRecipes.name }}</td>
-                {# <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td> #}
-                <td>{{ weekplanner.weekday }}</td>
-                <td>{{ weekplanner.mealTime }}</td>
-                
-                <td>
-                    {# <a href="{{ path('app_static_show', {'id': weekplanner.fkRecipes.id}) }}">show</a> #}
-                    <a href="/recipes/{{weekplanner.fkRecipes.id }}/show">show</a>
-                    <a href="/weekplanner/{{weekplanner.id}}/delete">delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ weekplanner.fkRecipes.name }}</td>
+            {#
+            <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td> #}
+            <td>{{ weekplanner.weekday }}</td>
+            <td>{{ weekplanner.mealTime }}</td>
+
+            <td>
+                {# <a href="{{ path('app_static_show', {'id': weekplanner.fkRecipes.id}) }}">show</a> #}
+                <a href="/recipes/{{weekplanner.fkRecipes.id }}/show">show</a>
+                <a href="/weekplanner/{{weekplanner.id}}/delete">delete</a>
+            </td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="4">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_static') }}">back to list</a>
-
-
-    {# <a href="{{ path('app_weekplanner_new') }}">Create new</a> #}
-{% endblock %}
+<a href="{{ path('app_static') }}">back to list</a> {# <a href="{{ path('app_weekplanner_new') }}">Create new</a> #} {% endblock %}

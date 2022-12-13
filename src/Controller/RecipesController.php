@@ -157,7 +157,6 @@ class RecipesController extends AbstractController
             return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
         }
 
-
         return $this->renderForm('recipes/edit.html.twig', [
             'recipe' => $recipe,
             'form' => $form,
@@ -170,8 +169,6 @@ class RecipesController extends AbstractController
     {
         $weekplanner = $weekplannerRepository->findBy(['fkRecipes' => $id]);
 
-        // dd($joinRecipes);
-
         if (count($weekplanner) == 0) {
             // fetch data to delete
             $joinRecipes = $joinRecipeRepository->findBy(['fkRecipes' => $id]);
@@ -182,15 +179,8 @@ class RecipesController extends AbstractController
                 $joinRecipeRepository->remove($joinRecipe, true);
             }
             $recipesRepository->remove($recipe, true);
-            
         }
         
         return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
-
-        // if ($this->isCsrfTokenValid('delete' . $recipe->getId($id), $request->request->get('_token'))) {
-        //     $recipesRepository->remove($recipe, true);
-        // }
-
-        // return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -5,16 +5,39 @@
             <h1 class="text-center">All Recipes</h1>
             <a href="{{ path('app_recipes_new') }}" class="btn btn-outline-dark align-self-baseline"><i class="fa-solid fa-plus me-2"></i>add new recipe</a>
         </div>
-        <tr>
-            <td><img src="{{recipes.fkUser.picture}}" width="70" class="rounded"></td>
-            <td>{{ recipes.fkUser.name }}</td>
-            <td>{{ recipes.fkUser.email }}</td>
-            <td>{{ recipes.fkUser.gender }}</td>
+        <table class="table align-middle mt-5 w-100">
+            <thead class="uppercase">
 
-            <td>
-        </tr>
+                <tr>
+                    <th class="col-3">
+                        Picture
+                    </th>
+                    <th class="col-3">
+                        Name
+                    </th>
+                    <th class="col-3">
+                        Email
+                    </th>
+                    <th class="col-1">
+                        Gender
+                    </th>
 
-        <hr>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td><img src="{{user.picture}}" width="70" class="rounded"></td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.gender }}</td>
+
+                    <td>
+                </tr>
+            </tbody>
+        </table>
+
 
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
