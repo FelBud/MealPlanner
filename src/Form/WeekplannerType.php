@@ -15,6 +15,7 @@ class WeekplannerType extends AbstractType
         $builder
             // ->add('date')
             ->add('weekday', ChoiceType::class, [
+                
                 'choices' => [
                     'Mon.' => "Mon",
                     'Tue.' => "Tue.",
@@ -23,14 +24,14 @@ class WeekplannerType extends AbstractType
                     'Fri.' => "Fri.",
                     'Sat.' => "Sat.",
                     'Sun.' => "Sun."],
-                "attr"=>["class"=>"form-control mb-2"]])
+                "attr"=>["class"=>"form-control mb-2", "style" => "width: 700px"]])
                 
             ->add('mealTime', ChoiceType::class, [
                 'choices' => [
                     'Breakfast' => "Breakfast",
                     'Lunch' => "Lunch",
                     'Dinner' => "Dinner"],
-                "attr"=>["class"=>"form-control mb-2"]])
+                "attr"=>["class"=>"form-control mb-2", "style" => "width: 700px"]])
         ;
     }
 
