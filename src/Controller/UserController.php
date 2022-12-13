@@ -105,5 +105,15 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/aprove/{id}', name: 'aprove_recipe')]
+    public function aprove(Request $request, $id, RecipesRepository $recipesRepository): Response
+    {
+        $recipe = $recipesRepository->find($id);
+        $recipe->setStatus("aproved");
+        $recipesRepository->save($recipe, true);
+
+        return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
+    }
+
  
 }
