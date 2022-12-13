@@ -35,9 +35,8 @@ class WeekplannerController extends AbstractController
             $recipe=$recipeRepository->find($id);
             $weekplanner->setFkRecipes($recipe);
             $weekplanner->setFkUser($this->getUser());
-            // $weekplanner->setMealTime("");
-            // $date=new \DateTime("now");
-            // $weekplanner->setDate($date);
+            $date=new \DateTime("now");
+            $weekplanner->setDate($date);
             $weekplannerRepository->save($weekplanner, true);
     
             return $this->redirectToRoute("app_weekplanner_index");
