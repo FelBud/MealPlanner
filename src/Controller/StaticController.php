@@ -69,7 +69,7 @@ class StaticController extends AbstractController
             'recipe' => $recipe,
         ]);
     }
-    #[Route('/{id}/dashboard', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
+    #[Route('/dashboard', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
     public function dashboard($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
        
