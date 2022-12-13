@@ -41,8 +41,9 @@
         </div>
 
     </div>
-</div>
-{% if is_granted("ROLE_USER") %}
-<a href="{{ path('app_static') }}">back to list</a> {% endif %} {% if is_granted("ROLE_ADMIN") %}
-<a href="{{ path('app_recipes_index') }}">back to list</a>
-<a href="{{ path('app_recipes_edit', {'id': recipe.id}) }}">edit</a> {{ include('recipes/_delete_form.html.twig') }} {% endif %} {% endblock %}
+    <div class="d-flex justify-content-center my-5">
+        {% if is_granted("ROLE_USER") %}
+        <a href="{{ path('app_static') }}" class="btn btn-outline-dark me-2 myBtn">back to all recipes</a> {% endif %} {% if is_granted("ROLE_ADMIN") %}
+
+        <a href="{{ path('app_recipes_edit', {'id': recipe.id}) }} " class="btn btn-outline-dark me-2 myBtn">edit</a> {{ include('recipes/_delete_form.html.twig') }} {% endif %}</div>
+</div> {% endblock %}

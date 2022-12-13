@@ -179,3 +179,7 @@ a.dropdown-item:hover {
 .testimonials-box {
     margin-top: 10%;
 }
+
+.myBtn {
+    padding: 0 2rem !important;
+}
