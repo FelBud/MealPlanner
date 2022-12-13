@@ -55,20 +55,19 @@ class StaticController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'app_static_show', methods: ['GET'])]
-    public function show($id, Recipes $recipe): Response
+    #[Route('/{id}/show', name: 'app_recipes_show', methods: ['GET'])]
+    public function show($id, RecipesRepository $recipesRepository, JoinRecipeRepository $JoinRecipeRepository): Response
     {
-        // SELECT * 
-        // FROM join_recipe
-        // WHERE fk_recipes_id = $id
+        $recipes = $recipesRepository->find($id);
+        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes"=> $id));
+        
 
-        // SELECT *
-        // FROM ingredients
-        // WHERE id = join_recipe.id
         return $this->render('recipes/show.html.twig', [
-            'recipe' => $recipe,
+            'recipe' => $recipes,
+            'joinRecipe' => $joinRecipe,
         ]);
     }
+
     #[Route('/{id}/edit', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
     public function dashboard($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
