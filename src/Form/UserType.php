@@ -12,6 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class UserType extends AbstractType
 {
@@ -42,7 +44,23 @@ class UserType extends AbstractType
                     ], "attr" => ["class" => "form-control"]
                 ]
             )
-            ->add('picture', TextType::class, ["attr" => ["placeholder" => "url", "class" => "form-control mb-2"]]);
+            ->add('picture', FileType::class, [
+                "attr"=>array("class"=>"form-control mb-2"),
+                'label' => 'Picture',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpg',
+                            'image/jpeg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid picture document',
+                    ])
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
