@@ -18,8 +18,8 @@
         {% for weekplanner in weekplanners %}
             <tr>
                 <td>{{ weekplanner.fkRecipes.name }}</td>
-                {# <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td>
-                <td>{{ weekplanner.mealTime }}</td> #}
+                <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td>
+                <td>{{ weekplanner.mealTime }}</td>
                 <td>
                     <select>
                     <option>Mon.</option>

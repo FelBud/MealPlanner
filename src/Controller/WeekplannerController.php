@@ -27,20 +27,26 @@ class WeekplannerController extends AbstractController
     #[Route('/{id}/new', name: 'app_weekplanner_new', methods: ['GET', 'POST'])]
     public function new(Request $request, WeekplannerRepository $weekplannerRepository, $id, RecipesRepository $recipeRepository): Response
     {
-        $recipe=$recipeRepository->find($id);
         $weekplanner = new Weekplanner();
-        $weekplanner->setFkRecipes($recipe);
-        $weekplanner->setFkUser($this->getUser());
-        $weekplanner->setMealTime("lunch");
-        $date=new \DateTime("now");
-        $weekplanner->setDate($date);
-        $weekplannerRepository->save($weekplanner, true);
 
         $form = $this->createForm(WeekplannerType::class, $weekplanner);
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recipe=$recipeRepository->find($id);
+            $weekplanner->setFkRecipes($recipe);
+            $weekplanner->setFkUser($this->getUser());
+            // $weekplanner->setMealTime("");
+            // $date=new \DateTime("now");
+            // $weekplanner->setDate($date);
+            $weekplannerRepository->save($weekplanner, true);
+    
+            return $this->redirectToRoute("app_weekplanner_index");
+        }
 
-
-        return $this->redirectToRoute("app_weekplanner_index");
+        return $this->renderForm('weekplanner/new.html.twig', [
+            'weekplanner' => $weekplanner,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{id}', name: 'app_weekplanner_show', methods: ['GET'])]
