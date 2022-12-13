@@ -107,9 +107,11 @@ class RecipesController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_recipes_edit', methods: ['GET', 'POST'])]
-    public function edit($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
+    public function edit($id, ManagerRegistry $doctrine, Request $request, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
         $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes" => $id));
+        $recipe = $doctrine->getRepository(Recipes::class)->find($id);
+        $fkprocedure = $doctrine->getRepository(Recipes::class)->find($id);
         $string = "";
 
         foreach ($ings as $ing) {
@@ -117,6 +119,7 @@ class RecipesController extends AbstractController
         }
 
         $form = $this->createForm(RecipesType::class, $recipe);
+        $form->get('procedure')->setData($fkprocedure->getFkProcedure()->getInstructions());
         $editIng = new Ingredients();
         $editIng->setName($string);
         $form2 = $this->createForm(IngredientsType::class, $editIng);
@@ -142,7 +145,12 @@ class RecipesController extends AbstractController
             }
             $ingredients = $form2->get("name")->getData();
             $ingredients = explode(", ", $ingredients);
-
+            $inputProcudure = $form->get('procedure')->getData();
+            $procedure = $doctrine->getRepository(Procedure::class)->find(array("id"=>$fkprocedure->getFkProcedure()));
+            $procedure->setInstructions($inputProcudure);
+            $em->persist($procedure);
+            $em->flush();
+            $recipe->setFkProcedure($procedure);
             foreach ($ingredients as $ingredient) {
                 $ing = new Ingredients();
                 $joinRec = new JoinRecipe();
