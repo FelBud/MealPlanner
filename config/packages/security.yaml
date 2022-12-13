@@ -22,7 +22,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                target: app_recipes_index
+                target: app_no_acc
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
