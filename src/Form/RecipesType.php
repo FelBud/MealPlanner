@@ -41,15 +41,8 @@ class RecipesType extends AbstractType
                 ->add('picture', FileType::class, [
                     "attr"=>array("class"=>"form-control mb-2"),
                     'label' => 'Picture',
-
-                  
-    
                     'mapped' => false,
-    
-                    
                     'required' => false,
-    
-                   
                     'constraints' => [
                         new File([
                             'maxSize' => '2048k',
