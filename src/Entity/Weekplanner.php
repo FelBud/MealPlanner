@@ -28,6 +28,9 @@ class Weekplanner
     #[ORM\ManyToOne]
     private ?Recipes $fkRecipes = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $weekday = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,6 +82,18 @@ class Weekplanner
     public function setFkRecipes(?Recipes $fkRecipes): self
     {
         $this->fkRecipes = $fkRecipes;
+
+        return $this;
+    }
+
+    public function getWeekday(): ?string
+    {
+        return $this->weekday;
+    }
+
+    public function setWeekday(string $weekday): self
+    {
+        $this->weekday = $weekday;
 
         return $this;
     }
