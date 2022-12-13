@@ -37,9 +37,9 @@ class UserType extends AbstractType
                 [
                     'choices' => [
                         'female' => "female",
-                        'make' => "male",
+                        'male' => "male",
                         'none' => "none"
-                    ], "attr" => ["class" => "form-controll", "style" => "width: 200px"]
+                    ], "attr" => ["class" => "form-control"]
                 ]
             )
             ->add('picture', TextType::class, ["attr" => ["placeholder" => "url", "class" => "form-control mb-2"]]);

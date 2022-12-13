@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Recipes;
+use App\Entity\JoinRecipes;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Repository\RecipesRepository;
+use App\Repository\JoinRecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,7 +45,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/new.html.twig', [
@@ -52,11 +54,16 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
+    #[Route('/{id}/show', name: 'app_recipes_show', methods: ['GET'])]
+    public function show($id, RecipesRepository $recipesRepository, JoinRecipeRepository $JoinRecipeRepository): Response
     {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
+        $recipes = $recipesRepository->find($id);
+        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes"=> $id));
+        
+
+        return $this->render('recipes/show.html.twig', [
+            'recipe' => $recipes,
+            'joinRecipe' => $joinRecipe,
         ]);
     }
 
@@ -69,7 +76,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/edit.html.twig', [
@@ -85,7 +92,7 @@ class UserController extends AbstractController
             $userRepository->remove($user, true);
         }
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/block/{id}', name: 'app_user_block')]
@@ -95,7 +102,7 @@ class UserController extends AbstractController
         $user->setRoles(['ROLE_BLOCKED']);
         $userRepository->save($user, true);
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 
  

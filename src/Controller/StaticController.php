@@ -69,9 +69,10 @@ class StaticController extends AbstractController
             'recipe' => $recipe,
         ]);
     }
-    #[Route('/{id}/edit', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/dashboard', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
     public function dashboard($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
+       
         if($this->getUser() == $recipe->getFkUser()){
             
         $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes"=>$id));
@@ -129,7 +130,8 @@ class StaticController extends AbstractController
         return $this->renderForm('recipes/edit.html.twig', [
             'recipe' => $recipe,
             'form' => $form,
-            "form2"=> $form2->createView()
+            "form2"=> $form2->createView(),
+        
         ]);
     }else{
         return $this->redirectToRoute('app_static');

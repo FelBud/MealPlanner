@@ -1,22 +1,25 @@
 {% extends "base.html.twig" %} {% block body %}
 <div class="container">
-    <h3>Users:</h3>
+    <div class="d-flex justify-content-between">
+        <h3>Users:</h3>
+        <a href="{{ path('app_user_new') }}" class="btn btn-outline-dark "><i class="fa-solid fa-plus me-2"></i>Create new user</a>
+    </div>
     <hr>
 
-    <table class="table mt-5">
-        <thead>
+    <table class="table align-middle mt-5">
+        <thead class="uppercase">
 
             <tr>
-                <th>
+                <th class="col-3">
                     Picture
                 </th>
-                <th class="uppercase">
+                <th class="col-3">
                     Name
                 </th>
-                <th>
+                <th class="col-3">
                     Email
                 </th>
-                <th>
+                <th class="col-1">
                     Gender
                 </th>
 
@@ -31,14 +34,15 @@
 
             {% for user in users %}
             <tr>
-                <td><img src="{{asset('pictures/'~user.Picture)}}"></td>
+                <td><img src="{{user.picture}}" width="70" class="rounded"></td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.gender }}</td>
 
                 <td>
-                    <a href=""><button class="btn btn-sm btn-outline-dark">Block</button></a>
-                    <a href="/{{user.id}}/edit"><button class="btn btn-sm btn-outline-dark">Edit</button></a>
+                    <a href="/admin/block/{{user.id}}"><button class="btn btn-sm btn-outline-dark"><i class="fa-regular fa-circle-xmark me-2"></i>Block</button></a>
+
+                    <a href="/admin/{{user.id}}/edit"><button class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-pencil me-2"></i>Edit</button></a>
                 </td>
             </tr>
             {% endfor %}
@@ -62,7 +66,7 @@
                         <h5 class="card-title">{{ recipe.Name }}</h5>
                         <p class="card-text"><i class="fa-regular fa-user me-2"></i>{{ recipe.Servings }} Servings </p>
                         <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }}</p>
-                        <a href=""><button class="btn btn-outline-dark">Details</button></a>
+                        <a href="/admin/{{recipe.id}}/show"><button class="btn btn-outline-dark">Details</button></a>
                         <a href=""><button class="btn btn-outline-dark">Approve</button></a>
                     </div>
                 </div>
@@ -71,4 +75,4 @@
         </div>
     </div>
 </div>
-{% endblock %} {# <a href="{{ path('app_user_block', {'id': user.id}) }}">block</a> #} {# <a href="{{ path('app_user_new') }}">Create new</a> #}
+{% endblock %} {# <a href="{{ path('app_user_new') }}">Create new</a> #}
