@@ -2,13 +2,13 @@
 <div class="container mb-3">
     <div id="recipe-box">
         <div class="d-flex justify-content-between">
-            <h1 class="text-center">All Recipes</h1>
-            <a href="{{ path('app_recipes_new') }}" class="btn btn-outline-dark align-self-baseline"><i class="fa-solid fa-plus me-2"></i>add new recipe</a>
+            <h1 class="text-center mb-0">All Recipes</h1>
+            <a href="{{ path('app_recipes_new') }}" class="btn btn-outline-dark align-self-baseline mb-0"><i class="fa-solid fa-plus me-2"></i>add new recipe</a>
         </div>
         <hr>
 
 
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="row row-cols-1 row-cols-md-3 g-4 my-5">
             {% for recipe in recipes %} {% if recipe.status == "aproved" %}
             <div class="col">
                 <div class="card">
