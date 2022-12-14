@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %} {% block title %}Recipes universal{% endblock %} {% block body %}
+<div class="container mb-3">
+    <div id="recipe-box">
+        <div class="d-flex justify-content-between">
+            <h1 class="text-center mb-0">Vegetarian Recipes</h1>
+            <a href="{{ path('app_recipes_new') }}" class="btn btn-outline-dark align-self-baseline mb-0"><i class="fa-solid fa-plus me-2"></i>add new recipe</a>
+        </div>
+        <hr>
+
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 my-5">
+            {% for recipe in recipes %} {% if recipe.status == "aproved" %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{asset('pictures/'~recipe.Picture)}}" class="card-img-top cardImage">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.Name }}</h5>
+                        <p class="card-text"><i class="fa-regular fa-user me-2"></i>{{ recipe.Servings }} Servings </p>
+                        <p><i class="fa-regular fa-clock me-2"></i>{{ recipe.Time }} min</p>
+                        <!--Buttons-->
+                        <div class="d-flex justify-content-end">
+
+                            <!--If Admin-->
+                            {% if is_granted("ROLE_ADMIN") %}
+                            <a href="{{ path('app_recipes_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a>
+                            <a href="{{ path('app_recipes_edit', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-pencil me-2"></i>Edit</button></a>
+                            <a href="{{ path('app_recipes_delete', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-regular fa-circle-xmark me-2"></i>Delete</button></a>
+                            <!--If user-->
+                            {% elseif is_granted("ROLE_USER") %}
+                            <a href="{{ path('app_recipes_user_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a>
+                            <a href="{{ path('app_weekplanner_new', {'id': recipe.id}) }}"><button class="btn btn-outline-dark"><i class="fa-solid fa-plus me-2"></i>Add to Planner</button></a> {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}{% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

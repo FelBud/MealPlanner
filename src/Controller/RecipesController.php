@@ -33,7 +33,7 @@ class RecipesController extends AbstractController
         
         return $this->render('recipes/index.html.twig', [
             'recipes' => $recipesRepository->findAll(),
-            
+
         ]);
     }
 
@@ -192,5 +192,25 @@ class RecipesController extends AbstractController
         }
         
         return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/vegan', name: 'app_recipes_vegan')]
+    public function findByVegan(ManagerRegistry $doctrine): Response
+    {
+        $repository = $doctrine->getRepository(Recipes::class)/* ->findAll() */;
+        $recipes = $repository->findBy(['Category' => 'vegan']);
+        return $this->render('recipes/vegan.html.twig', [
+            "recipes" => $recipes
+        ]);
+    }
+
+    #[Route('/vegetarian', name: 'app_recipes_vegetarian')]
+    public function findByVegetarian(ManagerRegistry $doctrine): Response
+    {
+        $repository = $doctrine->getRepository(Recipes::class)/* ->findAll() */;
+        $recipes = $repository->findBy(['Category' => 'vegetarian']);
+        return $this->render('recipes/vegetarian.html.twig', [
+            "recipes" => $recipes
+        ]);
     }
 }
