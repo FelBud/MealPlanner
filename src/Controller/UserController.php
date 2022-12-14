@@ -13,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
+
 
 #[Route('/admin')]
 class UserController extends AbstractController
@@ -23,10 +25,9 @@ class UserController extends AbstractController
         $array = [];
         $user = $usersRepository->findAll();
         foreach ($user as $key => $value) {
-            if($value->getRoles()[0] != "ROLE_ADMIN") {
+            if ($value->getRoles()[0] != "ROLE_ADMIN") {
                 array_push($array, $value);
             }
-
         }
 
         return $this->render('user/index.html.twig', [
@@ -58,8 +59,8 @@ class UserController extends AbstractController
     public function show($id, RecipesRepository $recipesRepository, JoinRecipeRepository $JoinRecipeRepository): Response
     {
         $recipes = $recipesRepository->find($id);
-        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes"=> $id));
-        
+        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes" => $id));
+
 
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipes,
@@ -68,12 +69,24 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                if ($user->getPicture() != "userDefault.png" && $user->getPicture() != "adminDefault.png" && $user->getPicture() != Null) {
+                    unlink("pictures/" . $user->getPicture());
+                }
+                $pictureFileName = $fileUploader->upload($pictureFile);
+                $user->setPicture($pictureFileName);
+            } else {
+                $user->setPicture("userDefault.png");
+            }
+
             $userRepository->save($user, true);
 
             return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
@@ -88,7 +101,7 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
         }
 
@@ -114,6 +127,4 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_dashboard', [], Response::HTTP_SEE_OTHER);
     }
-
- 
 }
