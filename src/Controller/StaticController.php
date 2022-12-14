@@ -12,6 +12,7 @@ use App\Form\IngredientsType;
 use App\Repository\RecipesRepository;
 use App\Repository\JoinRecipeRepository;
 use App\Repository\UserRepository;
+use App\Repository\WeekplannerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FileUploadError;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,8 +64,8 @@ class StaticController extends AbstractController
     public function show($id, RecipesRepository $recipesRepository, JoinRecipeRepository $JoinRecipeRepository): Response
     {
         $recipes = $recipesRepository->find($id);
-        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes"=> $id));
-        
+        $joinRecipe = $JoinRecipeRepository->findBy(array("fkRecipes" => $id));
+
 
         return $this->render('recipes/show.html.twig', [
             'recipe' => $recipes,
@@ -75,70 +76,69 @@ class StaticController extends AbstractController
     #[Route('/{id}/edit', name: 'app_dashboard_edit', methods: ['GET', 'POST'])]
     public function dashboard($id, ManagerRegistry $doctrine, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
     {
-       
-        if($this->getUser() == $recipe->getFkUser()){
-            
-        $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes"=>$id));
-        $string = "";
 
-        foreach($ings as $ing){
-            $string .= $ing->getFkIngredients()->getName() . ", ";
+        if ($this->getUser() == $recipe->getFkUser()) {
+
+            $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes" => $id));
+            $string = "";
+
+            foreach ($ings as $ing) {
+                $string .= $ing->getFkIngredients()->getName() . ", ";
+            }
+
+            $form = $this->createForm(RecipesType::class, $recipe);
+            $editIng = new Ingredients();
+            $editIng->setName($string);
+            $form2 = $this->createForm(IngredientsType::class, $editIng);
+
+            $form->handleRequest($request);
+            $form2->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $doctrine->getManager();
+                $pictureFile = $form->get('picture')->getData();
+                if ($pictureFile) {
+                    unlink("pictures/" . $recipe->getPicture());
+                    $pictureFileName = $fileUploader->upload($pictureFile);
+                    $recipe->setPicture($pictureFileName);
+                } else {
+                    $recipe->setPicture("default.png");
+                }
+
+                $stringToArray = explode(", ", $string);
+                foreach ($ings as $value) {
+                    $em->remove($value);
+                    $em->flush();
+                }
+                $ingredients = $form2->get("name")->getData();
+                $ingredients = explode(", ", $ingredients);
+
+                foreach ($ingredients as $ingredient) {
+                    $ing = new Ingredients();
+                    $joinRec = new JoinRecipe();
+                    $ing->setName($ingredient);
+                    $em->persist($ing);
+                    $em->flush();
+                    $joinRec->setFkRecipes($recipe);
+                    $joinRec->setFkIngredients($ing);
+                    $em->persist($joinRec);
+                    $em->flush();
+                }
+                $recipesRepository->save($recipe, true);
+
+                return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+
+            return $this->renderForm('recipes/edit.html.twig', [
+                'recipe' => $recipe,
+                'form' => $form,
+                "form2" => $form2->createView(),
+
+            ]);
+        } else {
+            return $this->redirectToRoute('app_static');
         }
-        
-        $form = $this->createForm(RecipesType::class, $recipe);
-        $editIng = new Ingredients();
-        $editIng->setName($string);
-        $form2 = $this->createForm(IngredientsType::class, $editIng);
-
-        $form->handleRequest($request);
-        $form2->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $doctrine->getManager();
-            $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile) {
-                unlink("pictures/" . $recipe->getPicture());
-                $pictureFileName = $fileUploader->upload($pictureFile);
-                $recipe->setPicture($pictureFileName);
-            } else {
-                $recipe->setPicture("default.png");
-            }
-
-            $stringToArray = explode(", ", $string);
-            foreach ($ings as $value) {
-                $em->remove($value);
-                $em->flush();
-
-            }
-            $ingredients = $form2->get("name")->getData();
-            $ingredients = explode(", ", $ingredients );
-            
-            foreach($ingredients as $ingredient){
-                $ing = new Ingredients();
-                $joinRec = new JoinRecipe();
-                $ing->setName($ingredient);
-                $em->persist($ing);
-                $em->flush();
-                $joinRec->setFkRecipes($recipe);
-                $joinRec->setFkIngredients($ing);
-                $em->persist($joinRec);
-                $em->flush();
-            }
-            $recipesRepository->save($recipe, true);
-
-            return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-
-        return $this->renderForm('recipes/edit.html.twig', [
-            'recipe' => $recipe,
-            'form' => $form,
-            "form2"=> $form2->createView(),
-        
-        ]);
-    }else{
-        return $this->redirectToRoute('app_static');
-    }
     }
 
     // #[Route('/{id}/edit', name: 'app_recipes_edit_user', methods: ['GET', 'POST'])]
@@ -168,22 +168,48 @@ class StaticController extends AbstractController
     //     ]);
     // }
 
-    #[Route('/{id}', name: 'app_recipes_delete_user', methods: ['POST'])]
-    public function delete(Request $request, Recipes $recipe, RecipesRepository $recipesRepository): Response
+    // #[Route('/{id}', name: 'app_recipes_delete_user', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_recipes_delete_user')]
+    public function delete($id, WeekplannerRepository $weekplannerRepository, Request $request, Recipes $recipe, RecipesRepository $recipesRepository, JoinRecipeRepository $joinRecipeRepository): Response
     {
+        $weekplanner = $weekplannerRepository->findBy(['fkRecipes' => $id]);
+
         $form = $this->createForm(RecipesType::class, $recipe);
+        $recipe = $form->getData();
 
+        if (count($weekplanner) == 0) {
+            // fetch data to delete
+            $joinRecipes = $joinRecipeRepository->findBy(['fkRecipes' => $id]);
+            $recipe = $recipesRepository->find($id);
 
-        
-        if ($this->isCsrfTokenValid('delete'.$recipe->getId(), $request->request->get('_token'))) {
-            $recipe = $form->getData();
+            // delete from join_recipe table
+            foreach ($joinRecipes as $joinRecipe) {
+                $joinRecipeRepository->remove($joinRecipe, true);
+            }
+
+            // delete picture from pictures folder
             if ($recipe->getPicture() != "default.png") {
-                            unlink("pictures/" . $recipe->getPicture());
-                            }
+                unlink("pictures/" . $recipe->getPicture());
+            }
+
+            // delete from recipes table
             $recipesRepository->remove($recipe, true);
         }
 
         return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
+
+
+        // if ($this->isCsrfTokenValid('delete' . $recipe->getId(), $request->request->get('_token'))) {
+        //     $recipe = $form->getData();
+        //     $aa = $recipe->getPicture();
+        //     dd($aa);
+        //     if ($recipe->getPicture() != "default.png") {
+        //         unlink("pictures/" . $recipe->getPicture());
+        //     }
+        //     $recipesRepository->remove($recipe, true);
+        // }
+
+        // return $this->redirectToRoute('app_recipes_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/add/{id}', name: 'app_static_add')]
@@ -197,7 +223,4 @@ class StaticController extends AbstractController
             'recipes' => $recipesRepository->findAll(),
         ]);
     }
-
 }
-
-
