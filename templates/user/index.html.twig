@@ -34,7 +34,7 @@
 
             {% for user in users %}
             <tr>
-                <td><img src="{{user.picture}}" width="70" class="rounded"></td>
+                <td><img src="{{asset('pictures/'~user.picture)}}" width="70" class="rounded"></td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.gender }}</td>
