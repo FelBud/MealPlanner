@@ -36,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $gender = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $picture = null;
+    private ?string $picture = "userDefault.png";
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Status = null;
