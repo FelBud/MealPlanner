@@ -108,7 +108,7 @@ class RecipesController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_recipes_edit', methods: ['GET', 'POST'])]
     public function edit($id, ManagerRegistry $doctrine, Request $request, RecipesRepository $recipesRepository, FileUploader $fileUploader): Response
-    {
+    {   $this->denyAccessUnlessGranted('ROLE_ADMIN', 'ROLE_USER'); 
         $ings = $doctrine->getRepository(JoinRecipe::class)->findBy(array("fkRecipes" => $id));
         $recipe = $doctrine->getRepository(Recipes::class)->find($id);
         $fkprocedure = $doctrine->getRepository(Recipes::class)->find($id);
@@ -177,7 +177,7 @@ class RecipesController extends AbstractController
 
     #[Route('/{id}/delete', name: 'app_recipes_delete')]
     public function delete($id, WeekplannerRepository $weekplannerRepository, RecipesRepository $recipesRepository, JoinRecipeRepository $joinRecipeRepository): Response
-    {
+    { $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $weekplanner = $weekplannerRepository->findBy(['fkRecipes' => $id]);
 
         if (count($weekplanner) == 0) {
