@@ -193,6 +193,6 @@ a.dropdown-item:hover {
 /* Show */
 
 .recipe-detailsImg {
-    height: 30vh;
+    height: 80vh;
     object-fit: cover;
 }

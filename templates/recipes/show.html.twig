@@ -6,7 +6,7 @@
         <h1 class="text-center">{{recipe.name}}</h1>
         <div class="d-flex justify-content-around">
             <p><i class="fa-regular fa-user me-2"></i>{{recipe.Servings}} Servings</p>
-            <p><i class="fa-regular fa-clock me-2"></i>{{recipe.time}} </p>
+            <p><i class="fa-regular fa-clock me-2"></i>{{recipe.time}} min </p>
             {% if recipe.category == "Vegetarian" %}
             <p><i class="fa-solid fa-leaf me-2"></i>{{recipe.category}}</p>
             {% elseif recipe.category == "Vegan" %}
