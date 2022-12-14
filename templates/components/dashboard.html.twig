@@ -59,8 +59,8 @@
                             {% if recipe.status == "in progress" %}
                             <a href="{{ path('app_dashboard_edit', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2">Edit</button></a>
                             <a href="{{ path('app_recipes_delete_user', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2">Delete</button></a> {% endif %}
-                            <a href="{{ path('app_recipes_user_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a>
-                            <a href="{{ path('app_weekplanner_new', {'id': recipe.id}) }}"><button class="btn btn-outline-dark"><i class="fa-solid fa-plus me-2"></i>Add to Planner</button></a>
+                            <a href="{{ path('app_recipes_user_show', {'id': recipe.id}) }}"><button class="btn btn-outline-dark me-2"><i class="fa-solid fa-circle-info me-2"></i>Details</button></a> {#
+                            <a href="{{ path('app_weekplanner_new', {'id': recipe.id}) }}"><button class="btn btn-outline-dark"><i class="fa-solid fa-plus me-2"></i>Add to Planner</button></a> #}
                         </div>
                     </div>
                 </div>
