@@ -129,13 +129,14 @@ class RecipesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
+            $recipe = $form->getData();
             $pictureFile = $form->get('picture')->getData();
             if ($pictureFile) {
+                if ($recipe->getPicture() != "default.png" && $recipe->getPicture() != Null) {
                 unlink("pictures/" . $recipe->getPicture());
+                }
                 $pictureFileName = $fileUploader->upload($pictureFile);
                 $recipe->setPicture($pictureFileName);
-            } else {
-                $recipe->setPicture("default.png");
             }
 
             $stringToArray = explode(", ", $string);
