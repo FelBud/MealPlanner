@@ -43,7 +43,8 @@ a.dropdown-item:hover {
 }
 
 .nav-item a:hover {
-    color: #fff
+    color: #fff;
+    text-decoration: underline;
 }
 
 
@@ -51,9 +52,10 @@ a.dropdown-item:hover {
     color: #dfdfdf;
 } */
 
-.nav-item a:hover {
+
+/* .nav-item a:hover {
     color: #fff
-}
+} */
 
 .nav-item {
     min-width: 12vw;
