@@ -38,15 +38,18 @@ a.dropdown-item:hover {
 
 .nav-item a {
     color: #dfdfdf;
+    width: auto;
+    margin: 0 10px;
 }
 
 .nav-item a:hover {
     color: #fff
 }
 
-.nav-item a {
+
+/* .nav-item a {
     color: #dfdfdf;
-}
+} */
 
 .nav-item a:hover {
     color: #fff
