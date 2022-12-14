@@ -171,7 +171,15 @@ class StaticController extends AbstractController
     #[Route('/{id}', name: 'app_recipes_delete_user', methods: ['POST'])]
     public function delete(Request $request, Recipes $recipe, RecipesRepository $recipesRepository): Response
     {
+        $form = $this->createForm(RecipesType::class, $recipe);
+
+
+        
         if ($this->isCsrfTokenValid('delete'.$recipe->getId(), $request->request->get('_token'))) {
+            $recipe = $form->getData();
+            if ($recipe->getPicture() != "default.png") {
+                            unlink("pictures/" . $recipe->getPicture());
+                            }
             $recipesRepository->remove($recipe, true);
         }
 
