@@ -22,7 +22,7 @@ class UserType extends AbstractType
         $builder
             ->add('email', TextType::class, ["attr" => ["placeholder" => "email", "class" => "form-control mb-2"]])
         
-            ->add('password', PasswordType::class, ["attr" => ["placeholder" => "password", "class" => "form-control mb-2"]])
+            
             ->add('name', TextType::class, ["attr" => ["placeholder" => "full name", "class" => "form-control mb-2"]])
             ->add(
                 'gender',
