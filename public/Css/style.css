@@ -188,3 +188,11 @@ a.dropdown-item:hover {
 .btnsize {
     width: 100px !important;
 }
+
+
+/* Show */
+
+.recipe-detailsImg {
+    height: 30vh;
+    object-fit: cover;
+}

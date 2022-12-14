@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %} {% block title %}{{recipe.name}}{% endblock %} {% block body %}
 <div class="container">
-    <div class="">
-        <img src="" alt="">
+
+    <img src="{{asset('pictures/'~recipe.Picture)}}" alt="" class="recipe-detailsImg" width="100%">
+    <div class="my-4">
         <h1 class="text-center">{{recipe.name}}</h1>
         <div class="d-flex justify-content-around">
             <p><i class="fa-regular fa-user me-2"></i>{{recipe.Servings}} Servings</p>
             <p><i class="fa-regular fa-clock me-2"></i>{{recipe.time}} </p>
-            {% if recipe.category == "vegetarian" %}
+            {% if recipe.category == "Vegetarian" %}
             <p><i class="fa-solid fa-leaf me-2"></i>{{recipe.category}}</p>
-            {% elseif recipe.category == "vegan" %}
+            {% elseif recipe.category == "Vegan" %}
             <p><i class="fa-solid fa-seedling me-2"></i>{{recipe.category}}</p>
             {% else %}
             <p><i class="fa-solid fa-infinity me-2"></i>{{recipe.category}}</p>
@@ -16,6 +17,7 @@
             <p><i class="fa-solid fa-coins me-2"></i>{{recipe.price}} €</p>
         </div>
     </div>
+
 
     <div class="border rounded row row-cols-1 row-cols-md-2 p-4">
         <!--Ingredients-->

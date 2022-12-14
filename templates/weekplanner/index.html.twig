@@ -1,38 +1,117 @@
 {% extends 'base.html.twig' %} {% block title %}Weekplanner index{% endblock %} {% block body %}
 
 
-<h1 class="headings text-center">Weekplanner index</h1>
+<h1 class="headings text-center">Your Weekplanner</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>WeekDay</th>
-            <th>MealTime</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for weekplanner in weekplanners %}
-        <tr>
-            <td>{{ weekplanner.fkRecipes.name }}</td>
-            {#
-            <td>{{ weekplanner.date ? weekplanner.date|date('Y-m-d') : '' }}</td> #}
-            <td>{{ weekplanner.weekday }}</td>
-            <td>{{ weekplanner.mealTime }}</td>
+<div class="container">
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th class="col-2"></th>
+                <th class="col-7 text-center"></th>
 
-            <td>
-                {# <a href="{{ path('app_static_show', {'id': weekplanner.fkRecipes.id}) }}">show</a> #}
-                <a href="/weekplanner/{{weekplanner.fkRecipes.id }}/show">show</a>
-                <a href="/weekplanner/{{weekplanner.id}}/delete">delete</a>
-            </td>
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="4">no records found</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                <tbody>
+                    <!--Monday-->
+                    <tr>
+                        <td class="align-middle ps-5 fs-4">Monday</td>
 
-<div class="text-center"><a href="{{ path('app_static') }}" class="btn btn-outline-dark btnsize mt-2">Back</a></div> {# <a href="{{ path('app_weekplanner_new') }}">Create new</a> #} {% endblock %}
+                        <td class="align-middle">
+                            {% for mond in monday %}
+                            <div class="row mb-3">
+                                <a href="/weekplanner/{{mond.fkRecipes.id }}/show" class="col-3"><img src="{{asset('pictures/'~mond.fkRecipes.Picture)}}" width="150" class="me-4"></a>
+                                <span class="col-4 align-self-center">{{ mond.fkRecipes.name }}</span>
+                                <span class="col-4 align-self-center">{{ mond.mealTime }}</span>
+                                <a href="/weekplanner/{{mond.id}}/delete" class="text-danger col align-self-center"><i class="fa-regular fa-circle-xmark"></i></a></div>
+                            {% endfor %}
+                        </td>
+
+                    </tr>
+                    <!--Tuesday-->
+                    <tr>
+                        <td class="align-middle ps-5 fs-4">Tuesday</td>
+                        <td class="align-middle">
+                            {% for tue in tuesday %}
+                            <div class="row mb-3">
+                                <a href="/weekplanner/{{tue.fkRecipes.id }}/show" class="col-3"><img src="{{asset('pictures/'~tue.fkRecipes.Picture)}}" width="150" class="me-4"></a>
+                                <span class="col-4 align-self-center">{{ tue.fkRecipes.name }}</span>
+                                <span class="col-4 align-self-center">{{ tue.mealTime }}</span>
+                                <a href="/weekplanner/{{tue.id}}/delete" class="text-danger col align-self-center"><i class="fa-regular fa-circle-xmark"></i></a></div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <!--Wednesday-->
+                    <tr>
+                        <td class="align-middle ps-5 fs-4">Wednesday</td>
+                        <td class="align-middle">
+                            {% for wed in wednesday %}
+                            <div class="row mb-3">
+                                <a href="/weekplanner/{{wed.fkRecipes.id }}/show" class="col-3"><img src="{{asset('pictures/'~wed.fkRecipes.Picture)}}" width="150" class="me-4"></a>
+                                <span class="col-4 align-self-center">{{ wed.fkRecipes.name }}</span>
+                                <span class="col-4 align-self-center">{{ wed.mealTime }}</span>
+                                <a href="/weekplanner/{{wed.id}}/delete" class="text-danger col align-self-center"><i class="fa-regular fa-circle-xmark"></i></a></div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <!--Thursday-->
+                    <tr>
+                        <td class="align-middle ps-5 fs-4">Thursday</td>
+                        <td class="align-middle">
+                            {% for thu in thursday %}
+                            <div class="row mb-3">
+                                <a href="/weekplanner/{{thu.fkRecipes.id }}/show" class="col-3"><img src="{{asset('pictures/'~thu.fkRecipes.Picture)}}" width="150" class="me-4"></a>
+                                <span class="col-4 align-self-center">{{ thu.fkRecipes.name }}</span>
+                                <span class="col-4 align-self-center">{{ thu.mealTime }}</span>
+                                <a href="/weekplanner/{{thu.id}}/delete" class="text-danger col align-self-center"><i class="fa-regular fa-circle-xmark"></i></a></div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <!--Friday-->
+                    <tr>
+                        <td class="align-middle ps-5 fs-4">Friday</td>
+                        <td class="align-middle">
+                            {% for fri in friday %}
+                            <div class="row mb-3">
+                                <a href="/weekplanner/{{fri.fkRecipes.id }}/show" class="col-3"><img src="{{asset('pictures/'~fri.fkRecipes.Picture)}}" width="150" class="me-4"></a>
+                                <span class="col-4 align-self-center">{{ fri.fkRecipes.name }}</span>
+                                <span class="col-4 align-self-center">{{ fri.mealTime }}</span>
+                                <a href="/weekplanner/{{fri.id}}/delete" class="text-danger col align-self-center"><i class="fa-regular fa-circle-xmark"></i></a></div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <!--Saturday-->
+                    <tr>
+                        <td class="align-middle ps-5 fs-4">Saturday</td>
+                        <td class="align-middle">
+                            {% for sat in saturday %}
+                            <div class="row mb-3">
+                                <a href="/weekplanner/{{sat.fkRecipes.id }}/show" class="col-3"><img src="{{asset('pictures/'~sat.fkRecipes.Picture)}}" width="150" class="me-4"></a>
+                                <span class="col-4 align-self-center">{{ sat.fkRecipes.name }}</span>
+                                <span class="col-4 align-self-center">{{ sat.mealTime }}</span>
+                                <a href="/weekplanner/{{sat.id}}/delete" class="text-danger col align-self-center"><i class="fa-regular fa-circle-xmark"></i></a></div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    <!--Sunday-->
+                    <tr>
+                        <td class="align-middle ps-5 fs-4">Sunday</td>
+                        <td class="align-middle">
+                            {% for sun in sunday %}
+                            <div class="row mb-3">
+                                <a href="/weekplanner/{{sun.fkRecipes.id }}/show" class="col-3"><img src="{{asset('pictures/'~sun.fkRecipes.Picture)}}" width="150" class="me-4"></a>
+                                <span class="col-4 align-self-center">{{ sun.fkRecipes.name }}</span>
+                                <span class="col-4 align-self-center">{{ sun.mealTime }}</span>
+                                <a href="/weekplanner/{{sun.id}}/delete" class="text-danger col align-self-center"><i class="fa-regular fa-circle-xmark"></i></a></div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+
+
+
+                </tbody>
+        </thead>
+    </table>
+</div>
+
+<div class="text-center"><a href="{{ path('app_static') }}" class="btn btn-outline-dark btnsize my-2">Back</a></div> {# <a href="{{ path('app_weekplanner_new') }}">Create new</a> #} {% endblock %}

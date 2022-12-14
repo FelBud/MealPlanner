@@ -19,9 +19,26 @@ class WeekplannerController extends AbstractController
     #[Route('/', name: 'app_weekplanner_index', methods: ['GET', 'POST'])]
     public function index(WeekplannerRepository $weekplannerRepository): Response
     {
+        $weekplanner = $weekplannerRepository->findBy(['fkUser'=>$this->getUser()]);
+        $monday = $weekplannerRepository->findBy(['fkUser'=>$this->getUser(), 'weekday'=> "Mon."]);
+        $tuesday = $weekplannerRepository->findBy(['fkUser'=>$this->getUser(), 'weekday'=> "Tue."]);
+        $wednesday = $weekplannerRepository->findBy(['fkUser'=>$this->getUser(), 'weekday'=> "Wed."]);
+        $thursday = $weekplannerRepository->findBy(['fkUser'=>$this->getUser(), 'weekday'=> "Thu."]);
+        $friday = $weekplannerRepository->findBy(['fkUser'=>$this->getUser(), 'weekday'=> "Fri."]);
+        $saturday = $weekplannerRepository->findBy(['fkUser'=>$this->getUser(), 'weekday'=> "Sat."]);
+        $sunday = $weekplannerRepository->findBy(['fkUser'=>$this->getUser(), 'weekday'=> "Sun."]);
+    
         // dd($weekplannerRepository->findBy(["fkUser"=>$this->getUser()]));
         return $this->render('weekplanner/index.html.twig', [
-            'weekplanners' => $weekplannerRepository->findBy(["fkUser"=>$this->getUser()])
+            'weekplanners' => $weekplannerRepository->findBy(["fkUser"=>$this->getUser()]),
+            'monday' => $monday,
+            'tuesday' => $tuesday,
+            'wednesday' => $wednesday,
+            'thursday' => $thursday,
+            'friday' => $friday,
+            'saturday' => $saturday,
+            'sunday' => $sunday,
+
         ]);
     }
 
