@@ -12,10 +12,15 @@
         </div>
         <div class="text-center mt-3 collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav mx-auto ">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/recipes/">Home</a>
-                </li>
                 {% if is_granted("ROLE_USER") %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/recipes/">All Recipes</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/no/acc">Home</a>
+                </li>
+                {% endif %} {% if is_granted("ROLE_USER") %}
                 <li class="nav-item">
                     <a class="nav-link active" href="/recipes/vegetarian">Vegetarian</a>
                 </li>
@@ -23,7 +28,7 @@
                     <a class="nav-link active" href="/recipes/vegan">Vegan</a>
                 </li>
                 {% endif %}
-                
+
                 <li class="nav-item">
                     <a class="nav-link active" href="/about">About</a>
                 </li>
