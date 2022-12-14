@@ -57,7 +57,6 @@ class RecipesType extends AbstractType
                     ],
                 ])
                 ->add('procedure', TextareaType::class,["mapped"=>false,"attr"=>["placeholder"=>"preparation", "class"=>"form-control mb-2"]])
-                ->add('Create', SubmitType::class, ["attr"=>[ "class"=>"btn btn-outline-dark btnsize"]])
 
                 
         ;
