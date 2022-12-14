@@ -83,8 +83,6 @@ class UserController extends AbstractController
                 }
                 $pictureFileName = $fileUploader->upload($pictureFile);
                 $user->setPicture($pictureFileName);
-            } else {
-                $user->setPicture("userDefault.png");
             }
 
             $userRepository->save($user, true);
