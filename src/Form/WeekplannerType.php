@@ -17,7 +17,7 @@ class WeekplannerType extends AbstractType
             ->add('weekday', ChoiceType::class, [
                 
                 'choices' => [
-                    'Mon.' => "Mon",
+                    'Mon.' => "Mon.",
                     'Tue.' => "Tue.",
                     'Wed.' => "Wed.",
                     'Thu.' => "Thu.",
